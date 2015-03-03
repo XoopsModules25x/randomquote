@@ -20,6 +20,6 @@ function random_quote_show() {
     list($texto, $autor)= $xoopsDB->fetchRow($result);
     $block['texto']=$texto;
     $block['autor']=$autor;
+
     return $block;
 }
-?>

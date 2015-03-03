@@ -9,4 +9,3 @@
 
 $adminmenu[0]['title'] = _RQ_MENU;
 $adminmenu[0]['link'] = "admin/index.php";
-?>
