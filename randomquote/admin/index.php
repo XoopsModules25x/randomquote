@@ -24,22 +24,22 @@ if (isset($HTTP_POST_VARS)) {
 }
 
 if(isset($_GET) && isset($_GET['op'])) {
-	$op = $_GET['op'];
-	if($op=='del') {
-		$id = (int)$_GET['id'];
-	}
+    $op = $_GET['op'];
+    if($op=='del') {
+        $id = (int)$_GET['id'];
+    }
 }
 
 if(isset($_POST) && isset($_POST['op'])) {
-	$op = $_POST['op'];
-	if($op=='add') {
-		$autor = $_POST['autor'];
-		$texto = $_POST['texto'];
-	}
-	if($op=='del' && isset($_POST['ok'])) {
-		$ok = (int)$_POST['ok'];
-		$id = (int)$_POST['id'];
-	}
+    $op = $_POST['op'];
+    if($op=='add') {
+        $autor = $_POST['autor'];
+        $texto = $_POST['texto'];
+    }
+    if($op=='del' && isset($_POST['ok'])) {
+        $ok = (int)$_POST['ok'];
+        $id = (int)$_POST['id'];
+    }
 }
 
 if ( !empty($contents_preview) ) {
@@ -141,8 +141,8 @@ if ($op == "add") {
     } else {
         redirect_header("index.php?op=list",1,_XD_DBSUCCESS);
     }
-	
-	//echo $sql;
+    
+    //echo $sql;
     exit();
 }
 
@@ -181,5 +181,3 @@ if ($op == "del") {
         exit();
     }
 }
-
-?>

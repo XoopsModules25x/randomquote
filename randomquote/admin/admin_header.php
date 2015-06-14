@@ -25,4 +25,3 @@ if ( file_exists("../language/".$xoopsConfig['language']."/main.php") ) {
 } else {
     include "../language/english/main.php";
 }
-?>

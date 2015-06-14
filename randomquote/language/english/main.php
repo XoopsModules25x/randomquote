@@ -13,5 +13,3 @@ define("_RQ_ADD","Add Quote");
 define("_RQ_AUTOR","Author");
 define("_XD_DBSUCCESS","Database updated");
 define("_RQ_SUREDEL","Are you sure of delete the quote?");
-
-?>

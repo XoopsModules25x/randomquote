@@ -55,5 +55,3 @@ $modversion['blocks'][1]['name'] = _RQ_BNAME;
 $modversion['blocks'][1]['description'] = _RQ_BDESC;
 $modversion['blocks'][1]['show_func'] = "random_quote_show";
 $modversion['blocks'][1]['template'] = 'random_quote_block.html';
-
-?>

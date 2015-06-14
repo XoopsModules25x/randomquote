@@ -20,5 +20,3 @@ define("_RQ_MENU","Add/Edit Quotes");
 // Names of blocks for this module (Not all module has blocks)
 define("_RQ_BNAME","The Quote");
 define("_RQ_BDESC","Shows a random quote");
-
-?>
