@@ -17,14 +17,17 @@
  * @since           2.0.0
  */
 
-include_once __DIR__ . '/admin_header.php';
-//count "total citas"
-$count_quotes = $quotesHandler->getCount();
-// InfoBox citas
-$adminMenu->addInfoBox(_AM_RANDOMQUOTE_STATISTICS);
-// InfoBox citas
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_THEREARE_CITAS, $count_quotes);
-// Render Index
-echo $adminMenu->addNavigation(basename(__FILE__));
-echo $adminMenu->renderIndex();
-include_once __DIR__ . '/admin_footer.php';
+include dirname(dirname(__DIR__)) . '/mainfile.php';
+$dirname = $GLOBALS['xoopsModule']->getVar('dirname');
+include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/include/config.php';
+include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/include/functions.php';
+//$myts  = MyTextSanitizer::getInstance();
+$style = 'modules/' . $dirname . '/include/style.css';
+if (file_exists($style)) {    
+}
+{
+    return true;
+}
+$quotesHandler = xoops_getModuleHandler('quotes', 'randomquote');
+xoops_loadLanguage('modinfo', $dirname);
+xoops_loadLanguage('main', $dirname);
