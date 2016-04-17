@@ -17,14 +17,12 @@
  * @since           2.0.0
  */
 
-include_once __DIR__ . '/admin_header.php';
-//count "total citas"
-$count_quotes = $quotesHandler->getCount();
-// InfoBox citas
-$adminMenu->addInfoBox(_AM_RANDOMQUOTE_STATISTICS);
-// InfoBox citas
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_THEREARE_CITAS, $count_quotes);
-// Render Index
-echo $adminMenu->addNavigation(basename(__FILE__));
-echo $adminMenu->renderIndex();
-include_once __DIR__ . '/admin_footer.php';
+global $pathIcon32;
+echo "<div class='adminfooter'>\n" 
+     . "  <div style='text-align: center;'>\n" 
+     . "    <a href='http://xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" 
+     . "  </div>\n" . '  ' 
+     . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" 
+     . "</div>\n";
+
+xoops_cp_footer();

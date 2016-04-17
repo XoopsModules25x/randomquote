@@ -17,14 +17,21 @@
  * @since           2.0.0
  */
 
-include_once __DIR__ . '/admin_header.php';
-//count "total citas"
-$count_quotes = $quotesHandler->getCount();
-// InfoBox citas
-$adminMenu->addInfoBox(_AM_RANDOMQUOTE_STATISTICS);
-// InfoBox citas
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_THEREARE_CITAS, $count_quotes);
-// Render Index
-echo $adminMenu->addNavigation(basename(__FILE__));
-echo $adminMenu->renderIndex();
-include_once __DIR__ . '/admin_footer.php';
+function b_waiting_randomquote()
+{
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    $ret     = array();
+
+    // waiting quotes
+    $block = array();
+
+    $result = $xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix('randomquote_quotes') . ' WHERE quote_waiting=1');
+    if ($result) {
+        $block['adminlink'] = XOOPS_URL . '/modules/randomquote/admin/main.php?op=listWaiting';
+        list($block['pendingnum']) = $xoopsDB->fetchRow($result);
+        $block['lang_linkname'] = _PI_WAITING_WAITINGS;
+    }
+    $ret[] = $block;
+
+    return $ret;
+}
