@@ -52,10 +52,8 @@ class RandomquoteQuotes extends XoopsObject
      */
     public function getForm($action = false)
     {
-        // global $xoopsDB, $xoopsModuleConfig;
-
         if ($action === false) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = XoopsRequest::getString('REQUEST_URI','','SERVER');
         }
 
         $title = $this->isNew() ? sprintf(_AM_RANDOMQUOTE_QUOTES_ADD) : sprintf(_AM_RANDOMQUOTE_QUOTES_EDIT);
@@ -78,16 +76,6 @@ class RandomquoteQuotes extends XoopsObject
         $editorConfigs['height'] = '400px';
         $editorConfigs['editor'] = $GLOBALS['xoopsModuleConfig']['randomquote_editor'];
         $form->addElement(new XoopsFormEditor(_AM_RANDOMQUOTE_QUOTES_QUOTE, 'quote', $editorConfigs), true);
-
-        //        $editorConfigs           = array();
-        //        $editorConfigs["name"]   = "author";
-        //        $editorConfigs["value"]  = $this->getVar("author", "e");
-        //        $editorConfigs["rows"]   = 10;
-        //        $editorConfigs["cols"]   = 80;
-        //        $editorConfigs["width"]  = "100%";
-        //        $editorConfigs["height"] = "400px";
-        //        $editorConfigs["editor"] = $GLOBALS["xoopsModuleConfig"]["randomquote_editor"];
-        //        $form->addElement(new XoopsFormEditor(_AM_RANDOMQUOTE_QUOTES_AUTHOR, "author", $editorConfigs), true);
 
         $quote_status       = $this->isNew() ? 0 : $this->getVar('quote_status');
         $check_quote_status = new XoopsFormCheckBox(_AM_RANDOMQUOTE_QUOTES_STATUS, 'quote_status', $quote_status);

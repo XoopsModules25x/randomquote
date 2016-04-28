@@ -20,10 +20,11 @@
 include dirname(dirname(__DIR__)) . '/mainfile.php';
 $dirname = $GLOBALS['xoopsModule']->getVar('dirname');
 include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/include/config.php';
-include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/include/functions.php';
+include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/class/utilities.php';
 //$myts  = MyTextSanitizer::getInstance();
+xoops_load('RandomQuoteUtilities');
 $style = 'modules/' . $dirname . '/include/style.css';
-if (file_exists($style)) {    
+if (file_exists($style)) {   
 }
 {
     return true;

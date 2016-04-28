@@ -19,7 +19,7 @@
 
 include_once __DIR__ . '/admin_header.php';
 //It recovered the value of argument op in URL$
-$op = cleanVarsRandomquote($_REQUEST, 'op', 'list', 'string');
+$op = RandomQuoteUtilities::cleanVarsRandomquote($_REQUEST, 'op', 'list', 'string');
 switch ($op) {
     case 'list':
     default:

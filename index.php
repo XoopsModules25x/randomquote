@@ -20,14 +20,15 @@
  */
 
 include_once __DIR__ . '/header.php';
+$xoopsOption = array();
 $xoopsOption['template_main'] = 'randomquote_index.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
 include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 //$style = '../assets/css/table.css';
 // keywords
-setMetaKeywordsRandomquote($GLOBALS['xoopsModuleConfig']['keywords']);
+RandomQuoteUtilities::setMetaKeywordsRandomquote($GLOBALS['xoopsModuleConfig']['keywords']);
 // description
-setMetaDescriptionRandomquote(_MA_RANDOMQUOTE_DESC);
+RandomQuoteUtilities::setMetaDescriptionRandomquote(_MA_RANDOMQUOTE_DESC);
 //
 $GLOBALS['xoopsTpl']->assign('xoops_mpageurl', RANDOMQUOTE_URL . '/index.php');
 $GLOBALS['xoopsTpl']->assign('randomquote_url', RANDOMQUOTE_URL);

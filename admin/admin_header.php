@@ -20,7 +20,7 @@
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
 include_once dirname(__DIR__) . '/include/config.php';
-include_once dirname(__DIR__) . '/include/functions.php';
+include_once dirname(__DIR__) . '/class/utilities.php';
 
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 

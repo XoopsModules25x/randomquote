@@ -17,7 +17,7 @@
  * @since           2.0.0
  */
 
-include_once XOOPS_ROOT_PATH . '/modules/randomquote/include/functions.php';
+include_once XOOPS_ROOT_PATH . '/modules/randomquote/class/utilities.php';
 
 /**
  * @param $options

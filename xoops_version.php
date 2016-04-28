@@ -85,8 +85,8 @@ $modversion = array(
     //    'onInstall'           => 'include/action.module.php',
     //    'onUpdate'            => 'include/action.module.php',
     //    'onUninstall'         => 'include/action.module.php',
-    'onUpdate'            => 'include/install.php',
-    'onUninstall'         => 'include/update.php',
+    'onUpdate'            => 'include/oninstall.php',
+    'onUninstall'         => 'include/onupdate.php',
     // Search
     'hasSearch'           => 1,
     'search'              => array(
