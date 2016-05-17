@@ -35,7 +35,7 @@ switch ($op) {
         $criteria = new CriteriaCompo();
         if (isset($_REQUEST['status'])) {
             $status = XoopsRequest::getInt('status', RandomquoteConstants::STATUS_ONLINE);
-            $criteria->add(new Criteria('status', $status));
+            $criteria->add(new Criteria('quote_status', $status));
         } else {
             $criteria->setSort('id');
         }
