@@ -29,7 +29,7 @@
  * @since           2.11
  */
 
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 interface RandomquoteConstants
 {
