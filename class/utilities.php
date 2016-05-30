@@ -48,7 +48,7 @@ class RandomquoteUtilities
             if (isset($currArray[$k])) {
                 if ($currArray[$k] > $v) {
                     break;
-                } elseif ($currArray[$k] = $v) {
+                } elseif ($currArray[$k] == $v) {
                     continue;
                 } else {
                     $success = false;
