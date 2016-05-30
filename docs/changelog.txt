@@ -15,6 +15,7 @@
 - fixed typo in block text length calculation
 - fixed bug where 'item_tag' wasn't correctly assigned to template in /class/quotes.php
 - fixed bug in install script PHP version checking
+- fixed bug in install script XOOPS version checking
 - fixed bug where language file wasn't being loaded in install script
 - fixed typo in ./docs/licencs file name to license.txt
 - general code cleanup

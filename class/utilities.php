@@ -46,14 +46,16 @@ class RandomquoteUtilities
         $success     = true;
         foreach ($reqArray as $k=>$v) {
             if (isset($currArray[$k])) {
-                if ($currArray[$k] >= $v) {
+                if ($currArray[$k] > $v) {
+                    break;
+                } elseif ($currArray[$k] = $v) {
                     continue;
                 } else {
                     $success = false;
                     break;
                 }
             } else {
-                if ($v > 0) {
+                if (intval($v) > 0) { // handles things like x.x.x.0_RC2
                     $success = false;
                     break;
                 }
