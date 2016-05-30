@@ -1,96 +1,95 @@
 <?php
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 /**
  * Module: RandomQuote
  *
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * PHP version 5
- *
  * @category        Module
- * @package         Randomquote
- * @author          XOOPS Development Team, Mamba
- * @copyright       2001-2016 XOOPS Project (http://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @link            http://xoops.org/
- * @since           2.0.0
+ * @package         randomquote
+ * @author          XOOPS Module Development Team
+ * @author          Mamba
+ * @copyright       {@link http://xoops.org The XOOPS Project}
+ * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @link            http://xoops.org XOOPS
+ * @since           2.00
  */
-class RandomQuoteUtilities
+ /**
+  * RandomquoteUtilities
+  *
+  * Static utilities class to provide common functionality
+  *
+  */
+class RandomquoteUtilities
 {
-
-    /***************Blocks**************
-     * @param $cats
-     * @return string
+    /**
+     *
+     * Verifies XOOPS version meets minimum requirements for this module
+     * @static
+     * @param XoopsModule
+     *
+     * @return bool true if meets requirements, false if not
      */
-    public static function randomquote_block_addCatSelect($cats)
-    {
-        $cat_sql = '';
-        if (is_array($cats)) {
-            $cat_sql = '(' . current($cats);
-            array_shift($cats);
-            foreach ($cats as $cat) {
-                $cat_sql .= ',' . $cat;
+    public static function checkXoopsVer(&$module) {
+        xoops_loadLanguage('admin', $module->dirname());
+        //check for minimum XOOPS version
+        $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currArray   = explode('.', $currentVer);
+        $requiredVer = "" . $module->getInfo('min_xoops'); //making sure it's a string
+        $reqArray    = explode('.', $requiredVer);
+        $success     = true;
+        foreach ($reqArray as $k=>$v) {
+            if (isset($currArray[$k])) {
+                if ($currArray[$k] > $v) {
+                    break;
+                } elseif ($currArray[$k] == $v) {
+                    continue;
+                } else {
+                    $success = false;
+                    break;
+                }
+            } else {
+                if (intval($v) > 0) { // handles things like x.x.x.0_RC2
+                    $success = false;
+                    break;
+                }
             }
-            $cat_sql .= ')';
         }
 
-        return $cat_sql;
+        if (!$success) {
+            $module->setErrors(sprintf(_AM_RANDOMQUOTE_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
+        }
+
+        return $success;
     }
-
     /**
-     * @param               $global
-     * @param               $key
-     * @param  string       $default
-     * @param  string       $type
-     * @return mixed|string
+     *
+     * Verifies PHP version meets minimum requirements for this module
+     * @static
+     * @param XoopsModule
+     *
+     * @return bool true if meets requirements, false if not
      */
-    public static function cleanVarsRandomquote(&$global, $key, $default = '', $type = 'int')
-    {
-        switch ($type) {
-            case 'string':
-                $ret = isset($global[$key]) ? filter_var($global[$key], FILTER_SANITIZE_MAGIC_QUOTES) : $default;
-                break;
-            case 'int':
-            default:
-                $ret = isset($global[$key]) ? filter_var($global[$key], FILTER_SANITIZE_NUMBER_INT) : $default;
-                break;
-        }
-        if ($ret === false) {
-            return $default;
+    public static function checkPHPVer(&$module) {
+        xoops_loadLanguage('admin', $module->dirname());
+        // check for minimum PHP version
+        $phpLen   = strlen(PHP_VERSION);
+        $extraLen = strlen(PHP_EXTRA_VERSION);
+        $verNum   = trim(substr(PHP_VERSION, 0, ($phpLen-$extraLen)));
+        $reqVer   = trim($module->getInfo('min_php') . ""); //make sure it's a string and then trim it
+
+        $success  = true;
+        if ($verNum >= $reqVer) {
+            $module->setErrors(sprintf(_AM_RANDOMQUOTE_ERROR_BAD_PHP, $reqVer, $verNum));
+            $success = false;
         }
 
-        return $ret;
-    }
-
-    /**
-     * @param $content
-     */
-    public static function setMetaKeywordsRandomquote($content)
-    {
-        global $xoopsTpl, $xoTheme;
-        $myts    = MyTextSanitizer::getInstance();
-        $content = $myts->undoHtmlSpecialChars($myts->displayTarea($content));
-        if (isset($xoTheme) && is_object($xoTheme)) {
-            $xoTheme->addMeta('meta', 'keywords', strip_tags($content));
-        } else { // Compatibility for old Xoops versions
-            $xoopsTpl->assign('xoops_meta_keywords', strip_tags($content));
-        }
-    }
-
-    /**
-     * @param $content
-     */
-    public static function setMetaDescriptionRandomquote($content)
-    {
-        global $xoopsTpl, $xoTheme;
-        $myts    = MyTextSanitizer::getInstance();
-        $content = $myts->undoHtmlSpecialChars($myts->displayTarea($content));
-        if (isset($xoTheme) && is_object($xoTheme)) {
-            $xoTheme->addMeta('meta', 'description', strip_tags($content));
-        } else { // Compatibility for old Xoops versions
-            $xoopsTpl->assign('xoops_meta_description', strip_tags($content));
-        }
+        return $success;
     }
 }

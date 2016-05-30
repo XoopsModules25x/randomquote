@@ -1,43 +1,59 @@
 <?php
+/*
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 /**
  * Module: RandomQuote
  *
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * PHP version 5
- *
  * @category        Module
- * @package         Randomquote
- * @author          XOOPS Development Team, Mamba
- * @copyright       2001-2016 XOOPS Project (http://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @link            http://xoops.org/
- * @since           2.0.0
+ * @package         randomquote
+ * @author          XOOPS Module Development Team
+ * @author          Mamba
+ * @copyright       {@link http://xoops.org 2001-2016 XOOPS Project}
+ * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @link            http://xoops.org XOOPS
+ * @since           2.00
  */
 
-$indexFile = 'index.html';
-$blankFile = XOOPS_ROOT_PATH . '/modules/randomquote/assets/images/icons/blank.gif';
+/**
+ *
+ * Prepares system prior to attempting to install module
+ * @param obj $module {@link XoopsModule}
+ *
+ * @return bool true if ready to install, false if not
+ */
+function xoops_module_pre_install_randomquote(&$module)
+{
 
-//Creation du dossier "uploads" pour le module à la racine du site
-$module_uploads = XOOPS_ROOT_PATH . '/uploads/randomquote';
-if (!is_dir($module_uploads)) {
-    //    mkdir($module_uploads, 0777);
-    if (!@mkdir($module_uploads, 0757) && !is_dir($module_uploads)) {
-        throw Exception("Couldn't create this directory: " . $module_uploads);
+    if (!class_exists('RandomquoteUtilities')) {
+        xoops_load('utilities', 'randomquote');
     }
-}
-chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/randomquote/index.html');
+    //check for minimum XOOPS version
+    if (!RandomquoteUtilities::checkXoopsVer($module)) {
+        return false;
+    }
 
-//Creation du fichier citas dans uploads
-$module_uploads = XOOPS_ROOT_PATH . '/uploads/randomquote/citas';
-if (!is_dir($module_uploads)) {
-    //    mkdir($module_uploads, 0777);
-    if (!@mkdir($module_uploads, 0757) && !is_dir($module_uploads)) {
-        throw Exception("Couldn't create this directory: " . $module_uploads);
+    // check for minimum PHP version
+    if (!RandomquoteUtilities::checkPHPVer($module)) {
+        return false;
     }
+    return true;
 }
-chmod($module_uploads, 0777);
-copy($indexFile, XOOPS_ROOT_PATH . '/uploads/randomquote/citas/index.html');
+
+/**
+ *
+ * Performs tasks required during installation of the module
+ * @param obj $module {@link XoopsModule}
+ *
+ * @return bool true if installation successful, false if not
+ */
+function xoops_module_install_randomquote(&$module) {
+    return true;
+}
