@@ -22,22 +22,39 @@
  * @since           2.00
  */
 
-function b_waiting_randomquote()
+/**
+ *
+ * Prepares system prior to attempting to install module
+ * @param obj $module {@link XoopsModule}
+ *
+ * @return bool true if ready to install, false if not
+ */
+function xoops_module_pre_install_randomquote(&$module)
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
-    $xoopsDB       = XoopsDatabaseFactory::getDatabaseConnection();
-    $block         = array();
-    $quotesHandler = xoops_getmodulehandler('quotes', $moduleDirName);
-
-    // quotes waiting approval
-    $result = $quotesHandler->getCount(new Criteria('quote_status', RandomquoteConstants::STATUS_WAITING));
-    if ($result) {
-        $block = array('adminlink'     => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}/admin/main.php?op=list&status=" . RandomquoteConstants::STATUS_WAITING),
-                       'pendingnum'    => (int)$result,
-                       'lang_linkname' => _PI_WAITING_WAITINGS);
+    if (!class_exists('RandomquoteUtilities')) {
+        xoops_load('utilities', 'randomquote');
+    }
+    //check for minimum XOOPS version
+    if (!RandomquoteUtilities::checkXoopsVer($module)) {
+        return false;
     }
 
-    return $block;
+    // check for minimum PHP version
+    if (!RandomquoteUtilities::checkPHPVer($module)) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ *
+ * Performs tasks required during installation of the module
+ * @param obj $module {@link XoopsModule}
+ *
+ * @return bool true if installation successful, false if not
+ */
+function xoops_module_install_randomquote(&$module)
+{
+    return true;
 }

@@ -1,11 +1,38 @@
-------------------------------------
- 2.10 Beta 1  2016/04/16
-------------------------------------
-- XOOPS 2.5.8, PHP 7 (mamba)
+<u>Version 2.11 Beta 1 [2016-5-16]</u>
+- added breadcrumb display to top of index page
+- added display of number of offline/online/waiting quotes in Admin index
+- added significant security improvements for all vars passed from forms
+- added module search capability
+- added support for XOOPS Tag module
+- added date quote was added to database
+- changed to allow HTML in quote entry (XoopsRequest::getText) in admin
+- changed install/update/unistall scripts
+- changed hard coded language strings from templates to language files
+- changed to improved index.tpl rendering
+- changed to improved PSRx naming nomenclature
+- changed phpDocumentor copyright, license, & link elements
+- changed to clean up phpdocumentor comments
+- fixed typo in block text length calculation
+- fixed bug where 'item_tag' wasn't correctly assigned to template in /class/quotes.php
+- fixed bug in install script PHP version checking
+- fixed bug in install script XOOPS version checking
+- fixed bug where language file wasn't being loaded in install script
+- fixed typo in ./docs/licencs file name to license.txt
+- general code cleanup
+- removed deprecated cleanVarsRandomquote, replaced with XoopsRequest
+- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc)
+- removed need for ./include/config.php
+- removed need for ./include/action.module.php
+- removed @version from phpDocumentor form page-level blocks
+- removed unused admin templates
+- fixed PHP version check (mamba)
+- fixed uninstall (mamba)
 
-------------------------------------
- 2.00 Alpha 1  2013/06/27
-------------------------------------
+<u>Version 2.10 Beta 1 [2016-04-16]</u>
+- Updates for XOOPS 2.5.8, PHP 7 (mamba)
+- Set min PHP to 5.5
 
- - Original release RandomQuote 2.0 Alpha 1 (mamba)
-   This module is developed from scratch using TDMCreate, but it's inspired by the original code from RandomQuote
+<u>Version 2.00 [2013-06-27]</u>
+ - original release RandomQuote 2.0 Alpha 1 (mamba)
+   This module is developed from scratch using TDMCreate, but it's inspired by
+   the original code from RandomQuote

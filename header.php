@@ -1,33 +1,36 @@
 <?php
+/*
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 /**
  * Module: RandomQuote
  *
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * PHP version 5
- *
  * @category        Module
- * @package         Randomquote
- * @author          XOOPS Development Team, Mamba
- * @copyright       2001-2016 XOOPS Project (http://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @link            http://xoops.org/
- * @since           2.0.0
+ * @package         randomquote
+ * @author          XOOPS Module Development Team
+ * @author          Mamba
+ * @copyright       {@link http://xoops.org 2001-2016 XOOPS Project}
+ * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @link            http://xoops.org XOOPS
+ * @since           2.00
  */
 
 include dirname(dirname(__DIR__)) . '/mainfile.php';
-$dirname = $GLOBALS['xoopsModule']->getVar('dirname');
-include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/include/config.php';
-include XOOPS_ROOT_PATH . '/modules/' . $dirname . '/include/functions.php';
-//$myts  = MyTextSanitizer::getInstance();
-$style = 'modules/' . $dirname . '/include/style.css';
-if (file_exists($style)) {    
+$moduleDirName = basename(__DIR__);
+
+xoops_load('constants', $moduleDirName);
+
+$style = "modules/{$moduleDirName}/include/style.css";
+if (file_exists($GLOBALS['xoops']->path("/{$style}"))) {
+    $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url("www/{$style}"));
 }
-{
-    return true;
-}
-$quotesHandler = xoops_getModuleHandler('quotes', 'randomquote');
-xoops_loadLanguage('modinfo', $dirname);
-xoops_loadLanguage('main', $dirname);
+$quotesHandler = xoops_getModuleHandler('quotes', $moduleDirName);
+xoops_loadLanguage('modinfo', $moduleDirName);
+xoops_loadLanguage('main', $moduleDirName);

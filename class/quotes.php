@@ -1,23 +1,27 @@
 <?php
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 /**
  * Module: RandomQuote
  *
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * PHP version 5
- *
  * @category        Module
- * @package         Randomquote
- * @author          XOOPS Development Team, Mamba
- * @copyright       2001-2016 XOOPS Project (http://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @link            http://xoops.org/
- * @since           2.0.0
+ * @package         randomquote
+ * @author          XOOPS Module Development Team
+ * @author          Mamba
+ * @copyright       {@link http://xoops.org The XOOPS Project}
+ * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @link            http://xoops.org XOOPS
+ * @since           2.00
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class RandomquoteQuotes
@@ -32,12 +36,10 @@ class RandomquoteQuotes extends XoopsObject
     {
         parent::__construct();
         $this->initVar('id', XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar('quote', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('quote', XOBJ_DTYPE_TXTAREA, null, true);
         $this->initVar('author', XOBJ_DTYPE_TXTAREA, null, false);
         $this->initVar('quote_status', XOBJ_DTYPE_INT, null, false, 10);
-        $this->initVar('quote_waiting', XOBJ_DTYPE_INT, null, false, 10);
-        $this->initVar('quote_online', XOBJ_DTYPE_INT, null, false, 1);
-
+        $this->initVar('create_date', XOBJ_DTYPE_INT, time(), false, 11);
         $this->initVar('dohtml', XOBJ_DTYPE_INT, 1, false);
         $this->initVar('dosmiley', XOBJ_DTYPE_INT, 1, false);
         $this->initVar('doxcode', XOBJ_DTYPE_INT, 1, false);
@@ -46,73 +48,86 @@ class RandomquoteQuotes extends XoopsObject
     }
 
     /**
-     * @param bool $action
      *
-     * @return XoopsThemeForm
+     * Magic function to display obj as string
+     */
+    public function __toString()
+    {
+        return $this->getVar('quote') . ' -  ' . $this->getVar('author');
+    }
+
+    /**
+     * Displays the Edit (Create) quote form
+     *
+     * @param mixed $action
+     *
+     * @return object {@see XoopsThemeForm)
      */
     public function getForm($action = false)
     {
-        // global $xoopsDB, $xoopsModuleConfig;
-
-        if ($action === false) {
-            $action = $_SERVER['REQUEST_URI'];
+        if (false === $action) {
+            $action = XoopsRequest::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $title = $this->isNew() ? sprintf(_AM_RANDOMQUOTE_QUOTES_ADD) : sprintf(_AM_RANDOMQUOTE_QUOTES_EDIT);
 
-        include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
+        xoops_load('constants', 'randomquote');
+        include_once $GLOBALS['xoops']->path("/class/xoopsformloader.php");
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         $author     = $this->isNew() ? '' : $this->getVar('author');
+        $id         = ($this->getVar('id')) ? $this->getVar('id') : RandomquoteConstants::DEFAULT_ID;
         $textAuthor = new XoopsFormText(_AM_RANDOMQUOTE_QUOTES_AUTHOR, 'author', 50, 255, $author);
         $form->addElement($textAuthor);
 
-        $editorConfigs           = array();
-        $editorConfigs['name']   = 'quote';
-        $editorConfigs['value']  = $this->getVar('quote', 'e');
-        $editorConfigs['rows']   = 10;
-        $editorConfigs['cols']   = 80;
-        $editorConfigs['width']  = '100%';
-        $editorConfigs['height'] = '400px';
-        $editorConfigs['editor'] = $GLOBALS['xoopsModuleConfig']['randomquote_editor'];
+        $editorConfigs = array('name'   => 'quote',
+                               'value'  => $this->getVar('quote', 'e'),
+                               'rows'   => 10,
+                               'cols'   => 50,
+                               'width'  => '100%',
+                               'height' => '400px',
+                               'editor' => $GLOBALS['xoopsModuleConfig']['randomquote_editor']);
         $form->addElement(new XoopsFormEditor(_AM_RANDOMQUOTE_QUOTES_QUOTE, 'quote', $editorConfigs), true);
 
-        //        $editorConfigs           = array();
-        //        $editorConfigs["name"]   = "author";
-        //        $editorConfigs["value"]  = $this->getVar("author", "e");
-        //        $editorConfigs["rows"]   = 10;
-        //        $editorConfigs["cols"]   = 80;
-        //        $editorConfigs["width"]  = "100%";
-        //        $editorConfigs["height"] = "400px";
-        //        $editorConfigs["editor"] = $GLOBALS["xoopsModuleConfig"]["randomquote_editor"];
-        //        $form->addElement(new XoopsFormEditor(_AM_RANDOMQUOTE_QUOTES_AUTHOR, "author", $editorConfigs), true);
+        /*
+         * pseudo code
+         * see if tag module is present & active
+         * load the formtag class
+         * display the tag form element to collect the tag item
+         */
+        $moduleHandler = xoops_gethandler('module');
+        $tagModule     = XoopsModule::getByDirname('tag');
+        if (($tagModule instanceof XoopsModule) && ($tagModule->isactive())) {
+            $tagClassExists = XoopsLoad::load('formtag', 'tag');  // get the TagFormTag class
+            if ($tagClassExists) {
+                if ($this->isNew()) {
+                    $tag_items = array();
+                } else {
+                    $moduleMid  = $GLOBALS['xoopsModule']->mid();
+                    $tagHandler = xoops_getmodulehandler('tag', 'tag');
+                    $tag_items  = $tagHandler->getByItem($id, $moduleMid, 0);
+                }
+                $tag_string = implode('|', $tag_items);
+                $form->addElement(new TagFormTag('item_tag', 60, 255, $tag_string, 0));
+            }
+        } else {
+            $form->addElement(new XoopsFormHidden('item_tag', ''));
+        }
 
-        $quote_status       = $this->isNew() ? 0 : $this->getVar('quote_status');
-        $check_quote_status = new XoopsFormCheckBox(_AM_RANDOMQUOTE_QUOTES_STATUS, 'quote_status', $quote_status);
-        $check_quote_status->addOption(1, ' ');
+        $quote_status       = ($this->isNew()) ? RandomquoteConstants::STATUS_ONLINE : $this->getVar('quote_status');
+        $check_quote_status = new XoopsFormRadio(_AM_RANDOMQUOTE_QUOTES_STATUS, 'quote_status', $quote_status);
+        $check_quote_status->addOption(RandomquoteConstants::STATUS_OFFLINE, _AM_RANDOMQUOTE_QUOTES_OFFLINE_TXT);
+        $check_quote_status->addOption(RandomquoteConstants::STATUS_ONLINE, _AM_RANDOMQUOTE_QUOTES_ONLINE_TXT);
+        $check_quote_status->addOption(RandomquoteConstants::STATUS_WAITING, _AM_RANDOMQUOTE_QUOTES_WAITING_TXT);
         $form->addElement($check_quote_status);
-        $quote_waiting       = $this->isNew() ? 0 : $this->getVar('quote_waiting');
-        $check_quote_waiting = new XoopsFormCheckBox(_AM_RANDOMQUOTE_QUOTES_WAITING, 'quote_waiting', $quote_waiting);
-        $check_quote_waiting->addOption(1, ' ');
-        $form->addElement($check_quote_waiting);
-        $quote_online       = $this->isNew() ? 0 : $this->getVar('quote_online');
-        $check_quote_online = new XoopsFormCheckBox(_AM_RANDOMQUOTE_QUOTES_ONLINE, 'quote_online', $quote_online);
-        $check_quote_online->addOption(1, ' ');
-        $form->addElement($check_quote_online);
 
         $form->addElement(new XoopsFormHidden('op', 'save_quote'));
+        $form->addElement(new XoopsFormHidden('id', $id));
 
         //Submit buttons
-        $button_tray   = new XoopsFormElementTray('', '');
-        $submit_button = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
-        $button_tray->addElement($submit_button);
-
-        $cancel_button = new XoopsFormButton('', '', _CANCEL, 'cancel');
-        $cancel_button->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($cancel_button);
-
+        $button_tray = new XoopsFormButtonTray('submit', _SUBMIT);
         $form->addElement($button_tray);
 
         return $form;
@@ -125,9 +140,9 @@ class RandomquoteQuotes extends XoopsObject
 class RandomquoteQuotesHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|object $db
      */
-    public function __construct(XoopsDatabase $db)
+    function __construct(&$db)
     {
         parent::__construct($db, 'randomquote_quotes', 'RandomquoteQuotes', 'id', 'quote');
     }

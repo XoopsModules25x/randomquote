@@ -1,39 +1,41 @@
 <?php
+/*
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 /**
  * Module: RandomQuote
  *
- * You may not change or alter any portion of this comment or credits
- * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
- *
- * PHP version 5
- *
  * @category        Module
- * @package         Randomquote
- * @author          XOOPS Development Team, Mamba
- * @copyright       2001-2016 XOOPS Project (http://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @link            http://xoops.org/
- * @since           2.0.0
+ * @package         randomquote
+ * @author          XOOPS Module Development Team
+ * @author          Mamba
+ * @copyright       {@link http://xoops.org 2001-2016 XOOPS Project}
+ * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @link            http://xoops.org XOOPS
+ * @since           2.00
  */
 
-$dirname        = basename(dirname(__DIR__));
-$module_handler = xoops_getHandler('module');
-$xoopsModule    = XoopsModule::getByDirname($dirname);
-$moduleInfo     = $module_handler->get($xoopsModule->getVar('mid'));
-$pathIcon32     = $moduleInfo->getInfo('icons32');
-$adminmenu      = array(
-    array(
-        'title' => _MI_RANDOMQUOTE_ADMENU1,
-        'link'  => 'admin/index.php',
-        'icon'  => "{$pathIcon32}/home.png"),
+$moduleDirName = basename(dirname(__DIR__));
+$moduleHandler = xoops_gethandler('module');
+$xoopsModule   = XoopsModule::getByDirname($moduleDirName);
+$moduleInfo    = $moduleHandler->get($xoopsModule->getVar('mid'));
+$pathIcon32    = '../../' . $moduleInfo->getInfo('icons32');
 
-    array(
-        'title' => _MI_RANDOMQUOTE_ADMENU2,
-        'link'  => 'admin/main.php',
-        'icon'  => "{$pathIcon32}/content.png"),
+$adminmenu = array(array('title' => _MI_RANDOMQUOTE_ADMENU1,
+                         'link'  => 'admin/index.php',
+                         'icon'  => "{$pathIcon32}/home.png"),
 
-    array(
-        'title' => _MI_RANDOMQUOTE_ADMENU3,
-        'link'  => 'admin/about.php',
-        'icon'  => "{$pathIcon32}/about.png"));
+                   array('title' => _MI_RANDOMQUOTE_ADMENU2,
+                         'link'  => 'admin/main.php',
+                         'icon'  => "{$pathIcon32}/content.png"),
+
+                   array('title' => _MI_RANDOMQUOTE_ADMENU3,
+                         'link'  => 'admin/about.php',
+                         'icon'  => "{$pathIcon32}/about.png"));
