@@ -20,12 +20,13 @@
  * @link            http://xoops.org XOOPS
  * @since           2.00
  */
- /**
-  * RandomquoteUtilities
-  *
-  * Static utilities class to provide common functionality
-  *
-  */
+
+/**
+ * RandomquoteUtilities
+ *
+ * Static utilities class to provide common functionality
+ *
+ */
 class RandomquoteUtilities
 {
     /**
@@ -36,7 +37,8 @@ class RandomquoteUtilities
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkXoopsVer(&$module) {
+    public static function checkXoopsVer(&$module)
+    {
         xoops_loadLanguage('admin', $module->dirname());
         //check for minimum XOOPS version
         $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
@@ -44,7 +46,7 @@ class RandomquoteUtilities
         $requiredVer = "" . $module->getInfo('min_xoops'); //making sure it's a string
         $reqArray    = explode('.', $requiredVer);
         $success     = true;
-        foreach ($reqArray as $k=>$v) {
+        foreach ($reqArray as $k => $v) {
             if (isset($currArray[$k])) {
                 if ($currArray[$k] > $v) {
                     break;
@@ -55,7 +57,7 @@ class RandomquoteUtilities
                     break;
                 }
             } else {
-                if (intval($v) > 0) { // handles things like x.x.x.0_RC2
+                if ((int)$v > 0) { // handles things like x.x.x.0_RC2
                     $success = false;
                     break;
                 }
@@ -68,6 +70,7 @@ class RandomquoteUtilities
 
         return $success;
     }
+
     /**
      *
      * Verifies PHP version meets minimum requirements for this module
@@ -76,20 +79,19 @@ class RandomquoteUtilities
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkPHPVer(&$module) {
+    public static function checkPHPVer(&$module)
+    {
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version
-        $phpLen   = strlen(PHP_VERSION);
-        $extraLen = strlen(PHP_EXTRA_VERSION);
-        $verNum   = trim(substr(PHP_VERSION, 0, ($phpLen-$extraLen)));
-        $reqVer   = trim($module->getInfo('min_php') . ""); //make sure it's a string and then trim it
-
-        $success  = true;
-        if ($verNum >= $reqVer) {
-            $module->setErrors(sprintf(_AM_RANDOMQUOTE_ERROR_BAD_PHP, $reqVer, $verNum));
-            $success = false;
+        $success = true;
+        $verNum  = phpversion();
+        $reqVer  = $module->getInfo('min_php');
+        if (isset($reqVer)) {
+            if (version_compare($verNum, $reqVer, '<')) {
+                $module->setErrors(sprintf(_AM_RANDOMQUOTE_ERROR_BAD_PHP, $reqVer, $verNum));
+                $success = false;
+            }
         }
-
         return $success;
     }
 }

@@ -9,18 +9,19 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: RandomQuote
  *
  * @category        Module
  * @package         randomquote
-* @author          XOOPS Module Development Team
+ * @author          XOOPS Module Development Team
  * @author          Mamba
  * @copyright       {@link http://xoops.org 2001-2016 XOOPS Project}
  * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @link            http://xoops.org XOOPS
  * @since           2.00
  */
- class RandomQuote
+class RandomQuote
 {
 }

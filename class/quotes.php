@@ -55,6 +55,7 @@ class RandomquoteQuotes extends XoopsObject
     {
         return $this->getVar('quote') . ' -  ' . $this->getVar('author');
     }
+
     /**
      * Displays the Edit (Create) quote form
      *
@@ -65,7 +66,7 @@ class RandomquoteQuotes extends XoopsObject
     public function getForm($action = false)
     {
         if (false === $action) {
-            $action = XoopsRequest::getString('REQUEST_URI','','SERVER');
+            $action = XoopsRequest::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $title = $this->isNew() ? sprintf(_AM_RANDOMQUOTE_QUOTES_ADD) : sprintf(_AM_RANDOMQUOTE_QUOTES_EDIT);
@@ -81,14 +82,13 @@ class RandomquoteQuotes extends XoopsObject
         $textAuthor = new XoopsFormText(_AM_RANDOMQUOTE_QUOTES_AUTHOR, 'author', 50, 255, $author);
         $form->addElement($textAuthor);
 
-        $editorConfigs = array('name' => 'quote',
-                              'value' => $this->getVar('quote', 'e'),
-                               'rows' => 10,
-                               'cols' => 50,
-                              'width' => '100%',
-                             'height' => '400px',
-                             'editor' => $GLOBALS['xoopsModuleConfig']['randomquote_editor']
-        );
+        $editorConfigs = array('name'   => 'quote',
+                               'value'  => $this->getVar('quote', 'e'),
+                               'rows'   => 10,
+                               'cols'   => 50,
+                               'width'  => '100%',
+                               'height' => '400px',
+                               'editor' => $GLOBALS['xoopsModuleConfig']['randomquote_editor']);
         $form->addElement(new XoopsFormEditor(_AM_RANDOMQUOTE_QUOTES_QUOTE, 'quote', $editorConfigs), true);
 
         /*
@@ -116,7 +116,7 @@ class RandomquoteQuotes extends XoopsObject
             $form->addElement(new XoopsFormHidden('item_tag', ''));
         }
 
-        $quote_status = ($this->isNew()) ? RandomquoteConstants::STATUS_ONLINE : $this->getVar('quote_status');
+        $quote_status       = ($this->isNew()) ? RandomquoteConstants::STATUS_ONLINE : $this->getVar('quote_status');
         $check_quote_status = new XoopsFormRadio(_AM_RANDOMQUOTE_QUOTES_STATUS, 'quote_status', $quote_status);
         $check_quote_status->addOption(RandomquoteConstants::STATUS_OFFLINE, _AM_RANDOMQUOTE_QUOTES_OFFLINE_TXT);
         $check_quote_status->addOption(RandomquoteConstants::STATUS_ONLINE, _AM_RANDOMQUOTE_QUOTES_ONLINE_TXT);

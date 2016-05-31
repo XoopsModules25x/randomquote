@@ -29,23 +29,23 @@ include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.
  *
  * Show a random quote in a block
  *
- * @param array {
- *            @param string [0] block type
- *            @param int    [1] number of quotes to display
- *        }
+ * @param array    {
+ * @param string   [0] block type
+ * @param int      [1] number of quotes to display
+ *                 }
  *
  * @return array {
  *                 array {
- *                     @param string [quote]
- *                     @param string [author]
+ * @param string   [quote]
+ * @param string   [author]
  *                 }
- *         }
+ *                 }
  */
 function showRandomquoteBlockViews($options)
 {
     $moduleDirName = basename(dirname(__DIR__));
 
-//    xoops_load('constants', 'randomquote');
+    //    xoops_load('constants', 'randomquote');
 
     $citas         = array();
     $type_block    = $options[0];
@@ -67,7 +67,7 @@ function showRandomquoteBlockViews($options)
             $criteria->add(new Criteria('create_date', strtotime(date('Y/m/d')) + 86400, '<='));
             $criteria->setSort('create_date');
             $criteria->setOrder('ASC');
-//            $criteria->setSort('RAND()');
+            //            $criteria->setSort('RAND()');
             break;
 
         case 'random':
@@ -87,9 +87,8 @@ function showRandomquoteBlockViews($options)
         } else {
             $short_quote = $thisQuote->getVar('quote');
         }
-        $citas[] = array('quote' => $short_quote,
-                        'author' => $thisQuote->getVar('author')
-        );
+        $citas[] = array('quote'  => $short_quote,
+                         'author' => $thisQuote->getVar('author'));
     }
 
     return $citas;
@@ -103,22 +102,28 @@ function showRandomquoteBlockViews($options)
 function editRandomquoteBlockViews($options)
 {
     $quotes_arr = array();
-    $form = "" . _MB_RANDOMQUOTE_QUOTES_DISPLAY . "\n"
-          . "<input type='hidden' name='options[0]' value='{$options[0]}'>\n"
-          . "<input type='text' name='options[1]' value='{$options[1]}' size='3' maxlength='4'>&nbsp;<br>\n"
-          . "" . _MB_RANDOMQUOTE_QUOTES_SHORTEN . " <input type='number' name='options[2]' value='{$options[2]} size='3' maxlength='5'' min='0' step='5'> " . _MB_RANDOMQUOTE_QUOTES_CHARACTERS . "<br><br>";
-/*
-    array_shift($options);
-    array_shift($options);
-    array_shift($options);
-    $form .= "" . _MB_RANDOMQUOTE_QUOTES_CATTODISPLAY . "<br>\n"
-           . "<select name='options[]' multiple='multiple' size='5'>\n"
-           . "<option value='0'" . (false === array_search(0, $options) ? "" : " selected='selected'") . ">" . _MB_RANDOMQUOTE_QUOTES_ALLCAT . "</option>\n";
-    foreach (array_keys($quotes_arr) as $i) {
-        $form .= "<option value='" . $quotes_arr[$i]->getVar('quotes_id') . "'" . (false === array_search($quotes_arr[$i]->getVar('quotes_id'), $options) ? '' : " selected='selected'") . ">"
-               . $quotes_arr[$i]->getVar('quotes_title') . "</option>\n";
-    }
-    $form .= "</select>\n";
-*/
+    $form       = ""
+                  . _MB_RANDOMQUOTE_QUOTES_DISPLAY
+                  . "\n"
+                  . "<input type='hidden' name='options[0]' value='{$options[0]}'>\n"
+                  . "<input type='text' name='options[1]' value='{$options[1]}' size='3' maxlength='4'>&nbsp;<br>\n"
+                  . ""
+                  . _MB_RANDOMQUOTE_QUOTES_SHORTEN
+                  . " <input type='number' name='options[2]' value='{$options[2]} size='3' maxlength='5'' min='0' step='5'> "
+                  . _MB_RANDOMQUOTE_QUOTES_CHARACTERS
+                  . "<br><br>";
+    /*
+        array_shift($options);
+        array_shift($options);
+        array_shift($options);
+        $form .= "" . _MB_RANDOMQUOTE_QUOTES_CATTODISPLAY . "<br>\n"
+               . "<select name='options[]' multiple='multiple' size='5'>\n"
+               . "<option value='0'" . (false === array_search(0, $options) ? "" : " selected='selected'") . ">" . _MB_RANDOMQUOTE_QUOTES_ALLCAT . "</option>\n";
+        foreach (array_keys($quotes_arr) as $i) {
+            $form .= "<option value='" . $quotes_arr[$i]->getVar('quotes_id') . "'" . (false === array_search($quotes_arr[$i]->getVar('quotes_id'), $options) ? '' : " selected='selected'") . ">"
+                   . $quotes_arr[$i]->getVar('quotes_title') . "</option>\n";
+        }
+        $form .= "</select>\n";
+    */
     return $form;
 }

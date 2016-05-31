@@ -37,8 +37,8 @@ function randomquote_search($queryarray, $andor, $limit, $offset, $userid)
     $criteria->add(new Criteria('quote_status', RandomquoteConstants::STATUS_ONLINE));
     $criteria->setSort('create_date');
     $criteria->setOrder('DESC');
-    $criteria->setLimit((int) $limit);
-    $criteria->setStart((int) $offset);
+    $criteria->setLimit((int)$limit);
+    $criteria->setStart((int)$offset);
 
     if ((is_array($queryarray)) && !empty($queryarray)) {
         $criteria->add(new Criteria('quote', "%{$queryarray[0]}%", 'LIKE'));
@@ -52,14 +52,12 @@ function randomquote_search($queryarray, $andor, $limit, $offset, $userid)
     }
     $quoteObjs = $quoteHandler->getAll($criteria, $entryFields);
     foreach ($quoteObjs as $thisQuote) {
-        $ttl = xoops_substr(strip_tags((string) $thisQuote), 0, 60, $trimmarker = '...');
-        $ret[] = array (
-                        'image' => 'assets/images/icons/quote.png',
-                         'link' => "index.php?id=" . $thisQuote->getVar('id'),
-                        'title' => $ttl,
-                         'time' => strtotime($thisQuote->getVar('create_date')),
-//                          'uid' => $entry['uid']
-                       );
+        $ttl   = xoops_substr(strip_tags((string)$thisQuote), 0, 60, $trimmarker = '...');
+        $ret[] = array('image' => 'assets/images/icons/quote.png',
+                       'link'  => "index.php?id=" . $thisQuote->getVar('id'),
+                       'title' => $ttl,
+                       'time'  => strtotime($thisQuote->getVar('create_date')),//                          'uid' => $entry['uid']
+        );
 
     }
 

@@ -41,54 +41,82 @@ switch ($op) {
         }
         $criteria->setOrder('ASC');
         $quotesObjArray = $quotesHandler->getAll($criteria);
-        $quoteCount = (!empty($quotesObjArray) ? count($quotesObjArray) : 0);
+        $quoteCount     = (!empty($quotesObjArray) ? count($quotesObjArray) : 0);
 
         //Table view
         if ($quoteCount) {
             echo "\n"
-               . "<table class='outer width100 bspacing1'>\n"
-               . "<thead>\n"
-               . "  <tr>\n"
-               . "    <th class='txtcenter width5'>" . _AM_RANDOMQUOTE_QUOTES_STATUS . "</th>\n"
-               . "    <th class='txtcenter width10'>" . _AM_RANDOMQUOTE_QUOTES_DATE . "</th>\n"
-               . "    <th class='txtcenter'>" . _AM_RANDOMQUOTE_QUOTES_QUOTE . "</th>\n"
-               . "    <th class='txtcenter width20'>" . _AM_RANDOMQUOTE_QUOTES_AUTHOR . "</th>\n"
-               . "    <th class='txtcenter width10'>" . _AM_RANDOMQUOTE_FORMACTION . "</th>\n"
-               . "  </tr>\n"
-               . "  </thead>\n"
-               . "  <tbody>\n";
+                 . "<table class='outer width100 bspacing1'>\n"
+                 . "<thead>\n"
+                 . "  <tr>\n"
+                 . "    <th class='txtcenter width5'>"
+                 . _AM_RANDOMQUOTE_QUOTES_STATUS
+                 . "</th>\n"
+                 . "    <th class='txtcenter width10'>"
+                 . _AM_RANDOMQUOTE_QUOTES_DATE
+                 . "</th>\n"
+                 . "    <th class='txtcenter'>"
+                 . _AM_RANDOMQUOTE_QUOTES_QUOTE
+                 . "</th>\n"
+                 . "    <th class='txtcenter width20'>"
+                 . _AM_RANDOMQUOTE_QUOTES_AUTHOR
+                 . "</th>\n"
+                 . "    <th class='txtcenter width10'>"
+                 . _AM_RANDOMQUOTE_FORMACTION
+                 . "</th>\n"
+                 . "  </tr>\n"
+                 . "  </thead>\n"
+                 . "  <tbody>\n";
 
             $class = 'even';
 
-            $statusIcons = array(RandomquoteConstants::STATUS_OFFLINE => array('image' => 'off.png',     'text' => _AM_RANDOMQUOTE_QUOTES_OFFLINE_TXT),
-                                 RandomquoteConstants::STATUS_ONLINE  => array('image' => 'on.png',      'text' => _AM_RANDOMQUOTE_QUOTES_ONLINE_TXT),
-                                 RandomquoteConstants::STATUS_WAITING => array('image' => 'warning.png', 'text' => _AM_RANDOMQUOTE_QUOTES_WAITING_TXT)
-            );
-            foreach($quotesObjArray as $quoteObj) {
-//            foreach (array_keys($quotes_arr) as $i) {
-                $class = ('even' == $class) ? 'odd' : 'even';
-                $thisStatus = $quoteObj->getVar('quote_status');
-                $quote_status_link = "<img src='{$pathIcon16}/{$statusIcons[$thisStatus]['image']}'"
-                                   . " alt='{$statusIcons[$thisStatus]['text']}'"
-                                   . " title='{$statusIcons[$thisStatus]['text']}'>";
+            $statusIcons = array(RandomquoteConstants::STATUS_OFFLINE => array('image' => 'off.png', 'text' => _AM_RANDOMQUOTE_QUOTES_OFFLINE_TXT),
+                                 RandomquoteConstants::STATUS_ONLINE  => array('image' => 'on.png', 'text' => _AM_RANDOMQUOTE_QUOTES_ONLINE_TXT),
+                                 RandomquoteConstants::STATUS_WAITING => array('image' => 'warning.png', 'text' => _AM_RANDOMQUOTE_QUOTES_WAITING_TXT));
+            foreach ($quotesObjArray as $quoteObj) {
+                //            foreach (array_keys($quotes_arr) as $i) {
+                $class             = ('even' == $class) ? 'odd' : 'even';
+                $thisStatus        = $quoteObj->getVar('quote_status');
+                $quote_status_link = "<img src='{$pathIcon16}/{$statusIcons[$thisStatus]['image']}'" . " alt='{$statusIcons[$thisStatus]['text']}'" . " title='{$statusIcons[$thisStatus]['text']}'>";
                 echo "  <tr class='{$class}'>\n"
-                   . "    <td class='txtcenter'>" . $quote_status_link . "</td>\n"
-                   . "    <td class='txtcenter'>" . ucfirst(formatTimestamp(strtotime($quoteObj->getVar('create_date')), 'm')) . "</td>\n"
-                   . "    <td>" . $quoteObj->getVar('quote') . "</td>\n"
-                   . "    <td class='txtcenter'>" . $quoteObj->getVar('author') . "</td>\n"
-                   . "    <td class='txtcenter'>\n"
-                   . "      <a href='./main.php?op=edit_quote&id=" . $quoteObj->getVar('id') . "'><img src='{$pathIcon16}/edit.png' alt='" . _EDIT . "' title='" . _EDIT . "'></a>\n"
-                   . "      <a href='./main.php?op=delete_quote&id=" . $quoteObj->getVar('id') . "'><img src='{$pathIcon16}/delete.png' alt='" . _DELETE . "' title='" . _DELETE . "'></a>\n"
-                   . "    </td>\n"
-                   . "  </tr>\n";
+                     . "    <td class='txtcenter'>"
+                     . $quote_status_link
+                     . "</td>\n"
+                     . "    <td class='txtcenter'>"
+                     . ucfirst(formatTimestamp(strtotime($quoteObj->getVar('create_date')), 'm'))
+                     . "</td>\n"
+                     . "    <td>"
+                     . $quoteObj->getVar('quote')
+                     . "</td>\n"
+                     . "    <td class='txtcenter'>"
+                     . $quoteObj->getVar('author')
+                     . "</td>\n"
+                     . "    <td class='txtcenter'>\n"
+                     . "      <a href='./main.php?op=edit_quote&id="
+                     . $quoteObj->getVar('id')
+                     . "'><img src='{$pathIcon16}/edit.png' alt='"
+                     . _EDIT
+                     . "' title='"
+                     . _EDIT
+                     . "'></a>\n"
+                     . "      <a href='./main.php?op=delete_quote&id="
+                     . $quoteObj->getVar('id')
+                     . "'><img src='{$pathIcon16}/delete.png' alt='"
+                     . _DELETE
+                     . "' title='"
+                     . _DELETE
+                     . "'></a>\n"
+                     . "    </td>\n"
+                     . "  </tr>\n";
             }
-            echo "  </tbody>\n"
-               . "</table><br><br>\n";
+            echo "  </tbody>\n" . "</table><br><br>\n";
         } else {
             //no quotes in the dB
             echo "<div class=\"clear spacer;\"> </div>\n"
-               . "<div class=\"center bold italic large line180\">" . sprintf(_AM_RANDOMQUOTE_THEREARE_QUOTES, _NO) . "</div>\n"
-               . "<div class=\"clear spacer line180\"> </div>\n";
+                 . "<div class=\"center bold italic large line180\">"
+                 . sprintf(_AM_RANDOMQUOTE_THEREARE_QUOTES, _NO)
+                 . "</div>\n"
+                 . "<div class=\"clear spacer line180\"> </div>\n";
         }
         break;
 
@@ -105,7 +133,7 @@ switch ($op) {
     case 'save_quote':
         // check to make sure this passes form submission security
         if (($GLOBALS['xoopsSecurity'] instanceof XoopsSecurity)) {
-            if ( !$GLOBALS['xoopsSecurity']->check()) {
+            if (!$GLOBALS['xoopsSecurity']->check()) {
                 // failed xoops security check
                 redirect_header($_SERVER['PHP_SELF'], RandomquoteConstants::REDIRECT_DELAY_MEDIUM, $GLOBALS['xoopsSecurity']->getErrors(true));
             }
@@ -115,13 +143,15 @@ switch ($op) {
 
         $input = new stdClass; // setup input array
 
-        $input->id           = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID, 'POST');
-        $input->quote        = XoopsRequest::getText('quote', '', 'POST');
-        $input->author       = XoopsRequest::getText('author', '', 'POST');
-        $input->item_tag     = XoopsRequest::getString('item_tag', '', 'POST');
+        $input->id       = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID, 'POST');
+        $input->quote    = XoopsRequest::getText('quote', '', 'POST');
+        $input->author   = XoopsRequest::getText('author', '', 'POST');
+        $input->item_tag = XoopsRequest::getString('item_tag', '', 'POST');
 
         $verify_quote_status = XoopsRequest::getInt('quote_status', RandomquoteConstants::STATUS_OFFLINE, 'POST');
-        $input->quote_status = (in_array($verify_quote_status, array(RandomquoteConstants::STATUS_ONLINE, RandomquoteConstants::STATUS_OFFLINE, RandomquoteConstants::STATUS_WAITING))) ? $verify_quote_status : RandomquoteConstants::STATUS_OFFLINE;
+        $input->quote_status = (in_array($verify_quote_status, array(RandomquoteConstants::STATUS_ONLINE,
+                                                                     RandomquoteConstants::STATUS_OFFLINE,
+                                                                     RandomquoteConstants::STATUS_WAITING))) ? $verify_quote_status : RandomquoteConstants::STATUS_OFFLINE;
 
         if (!empty($input->id)) {
             $obj     = $quotesHandler->get($input->id);
@@ -131,13 +161,12 @@ switch ($op) {
             $add_msg = _AM_RANDOMQUOTE_FORM_ADD_OK;
         }
 
-        $obj->setVars(array('quote' => $input->quote,
-                           'author' => $input->author,
-                     'quote_status' => $input->quote_status)
-        );
+        $obj->setVars(array('quote'        => $input->quote,
+                            'author'       => $input->author,
+                            'quote_status' => $input->quote_status));
 
         if ($objId = $quotesHandler->insert($obj)) {
-//            $moduleHandler = xoops_gethandler('module');
+            //            $moduleHandler = xoops_gethandler('module');
             $tagModule = XoopsModule::getByDirname('tag');
             if (($tagModule instanceof XoopsModule) && ($tagModule->isactive())) {
                 $tagHandler = xoops_getmodulehandler('tag', 'tag');
@@ -167,11 +196,11 @@ switch ($op) {
 
     case 'delete_quote':
         $delOk = XoopsRequest::getInt('ok', RandomquoteConstants::CONFIRM_NOT_OK, 'POST');
-        $id = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
+        $id    = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
         if ($delOk) {
             // check to make sure this passes form submission security
             if (($GLOBALS['xoopsSecurity'] instanceof XoopsSecurity)) {
-                if ( !$GLOBALS['xoopsSecurity']->check()) {
+                if (!$GLOBALS['xoopsSecurity']->check()) {
                     // failed xoops security check
                     redirect_header($_SERVER['PHP_SELF'], RandomquoteConstants::REDIRECT_DELAY_MEDIUM, $GLOBALS['xoopsSecurity']->getErrors(true));
                 }
@@ -183,8 +212,8 @@ switch ($op) {
                 $itemId = $obj->getVar('id');
                 if ($quotesHandler->delete($obj)) {
                     // now clear out items in tag module for this item
-                    $moduleHandler  = xoops_gethandler('module');
-                    $tagModule       = XoopsModule::getByDirname('tag');
+                    $moduleHandler = xoops_gethandler('module');
+                    $tagModule     = XoopsModule::getByDirname('tag');
                     if (($tagModule instanceof XoopsModule) && ($tagModule->isactive())) {
                         $tagHandler = xoops_getmodulehandler('tag', 'tag');
                         $tagHandler->updateByItem(array(), $itemId, $thisDirname);  //clear all tags for this item
@@ -198,11 +227,7 @@ switch ($op) {
             }
         } else {
             $obj = $quotesHandler->get($id);
-            xoops_confirm(
-                array('ok' => RandomquoteConstants::CONFIRM_OK, 'id' => $id, 'op' => 'delete_quote'),
-                $_SERVER['REQUEST_URI'],
-                sprintf(_AM_RANDOMQUOTE_FORMSUREDEL, $obj)
-            );
+            xoops_confirm(array('ok' => RandomquoteConstants::CONFIRM_OK, 'id' => $id, 'op' => 'delete_quote'), $_SERVER['REQUEST_URI'], sprintf(_AM_RANDOMQUOTE_FORMSUREDEL, $obj));
         }
         break;
 }

@@ -28,15 +28,14 @@ $xoopsModule   = XoopsModule::getByDirname($moduleDirName);
 $moduleInfo    = $moduleHandler->get($xoopsModule->getVar('mid'));
 $pathIcon32    = '../../' . $moduleInfo->getInfo('icons32');
 
-$adminmenu              = array(array('title' => _MI_RANDOMQUOTE_ADMENU1,
-                                       'link' => 'admin/index.php',
-                                       'icon' => "{$pathIcon32}/home.png"),
+$adminmenu = array(array('title' => _MI_RANDOMQUOTE_ADMENU1,
+                         'link'  => 'admin/index.php',
+                         'icon'  => "{$pathIcon32}/home.png"),
 
-                                array('title' => _MI_RANDOMQUOTE_ADMENU2,
-                                       'link' => 'admin/main.php',
-                                       'icon' => "{$pathIcon32}/content.png"),
+                   array('title' => _MI_RANDOMQUOTE_ADMENU2,
+                         'link'  => 'admin/main.php',
+                         'icon'  => "{$pathIcon32}/content.png"),
 
-                                array('title' => _MI_RANDOMQUOTE_ADMENU3,
-                                       'link' => 'admin/about.php',
-                                       'icon' => "{$pathIcon32}/about.png")
-);
+                   array('title' => _MI_RANDOMQUOTE_ADMENU3,
+                         'link'  => 'admin/about.php',
+                         'icon'  => "{$pathIcon32}/about.png"));

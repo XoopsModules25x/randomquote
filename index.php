@@ -22,13 +22,13 @@
  */
 
 require_once __DIR__ . '/header.php';
-$xoopsOption = (!isset($xoopsOption)) ? array() : $xoopsOption;
+$xoopsOption                  = (!isset($xoopsOption)) ? array() : $xoopsOption;
 $xoopsOption['template_main'] = 'randomquote_index.tpl';
 include_once $GLOBALS['xoops']->path('www/header.php');
 include_once $GLOBALS['xoops']->path('www/class/pagenav.php');
 xoops_load('xoopsrequest');
 
-$myts    = MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 // keywords
 $prefKeywords = $GLOBALS['xoopsModuleConfig']['keywords'];
@@ -48,21 +48,19 @@ if (isset($xoTheme) && is_object($xoTheme)) {
     $xoopsTpl->assign('xoops_meta_description', strip_tags($prefDesc));
 }
 
-$GLOBALS['xoopsTpl']->assign(array('xoops_mpageurl' => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}/index.php"),
-                                  'randomquote_url' => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}"),
-                                              'adv' => $GLOBALS['xoopsModuleConfig']['advertise'],
-//                                 'social_bookmarks' => $GLOBALS['xoopsModuleConfig']['social_bookmarks'],
-//                                       'fbcomments' => $GLOBALS['xoopsModuleConfig']['fbcomments'],
-                                            'admin' => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}/admin/index.php"),
-                                        'copyright' => "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
+$GLOBALS['xoopsTpl']->assign(array('xoops_mpageurl'  => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}/index.php"),
+                                   'randomquote_url' => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}"),
+                                   'adv'             => $GLOBALS['xoopsModuleConfig']['advertise'],
+                                   //                                 'social_bookmarks' => $GLOBALS['xoopsModuleConfig']['social_bookmarks'],
+                                   //                                       'fbcomments' => $GLOBALS['xoopsModuleConfig']['fbcomments'],
+                                   'admin'           => $GLOBALS['xoops']->url("www/modules/{$moduleDirName}/admin/index.php"),
+                                   'copyright'       => "<a href='http://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . $GLOBALS['xoops']->url("www/modules/{$moduleDirName}/assets/images/logo_module.png") . "' alt='XOOPS Project'></a>",
-                                       'breadcrumb' => '<a href="' . $GLOBALS['xoops']->url('www') . '">' . _YOURHOME . '</a>  &raquo; ' . $GLOBALS['xoopsModule']->name(),
-)
-);
+                                   'breadcrumb'      => '<a href="' . $GLOBALS['xoops']->url('www') . '">' . _YOURHOME . '</a>  &raquo; ' . $GLOBALS['xoopsModule']->name(),));
 
 $quotesHandler = xoops_getModuleHandler('quotes', $moduleDirName);
 
-$aQuote = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
+$aQuote   = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('quote_status', RandomquoteConstants::STATUS_ONLINE)); //only show online quotes
 if ($aQuote) { // this is done to accomodate the tags module
@@ -71,39 +69,36 @@ if ($aQuote) { // this is done to accomodate the tags module
 $criteria->setSort("author");
 $criteria->setOrder("ASC");
 $quoteObjArray = $quotesHandler->getAll($criteria);
-$numrows    = (!empty($quoteObjArray)) ? count($quoteObjArray) : 0;
+$numrows       = (!empty($quoteObjArray)) ? count($quoteObjArray) : 0;
 //$numrows    = $quotesHandler->getCount();
 //Table view
 if ($numrows) {
     $bodyTxt = "<table class='outer width100 outer bspacing1'>\n"
-             . "  <thead>\n"
-             . "  <tr>\n"
-             . "    <th class='txtcenter'>" . _MA_RANDOMQUOTE_QUOTES_QUOTE . "</th>\n"
-             . "    <th class='txtcenter'>" . _MA_RANDOMQUOTE_QUOTES_AUTHOR . "</th>\n"
-             . "  </tr>\n"
-             . "  </thead>\n"
-             . "  <tbody>\n";
+               . "  <thead>\n"
+               . "  <tr>\n"
+               . "    <th class='txtcenter'>"
+               . _MA_RANDOMQUOTE_QUOTES_QUOTE
+               . "</th>\n"
+               . "    <th class='txtcenter'>"
+               . _MA_RANDOMQUOTE_QUOTES_AUTHOR
+               . "</th>\n"
+               . "  </tr>\n"
+               . "  </thead>\n"
+               . "  <tbody>\n";
 
     $class = "even";
 
     foreach ($quoteObjArray as $thisQuote) {
-//        if (0 == $quotes_arr[$i]->getVar("quotes_pid")) {
-            $class = ('even' == $class) ? 'odd' : 'even';
-            $bodyTxt .= "  <tr class='{$class}'>\n"
-                      . "    <td> " . $thisQuote->getVar('quote') . "</td>\n"
-                      . "    <td class='txtcenter'>" . $thisQuote->getVar("author") . "</td>\n"
-                      . "  </tr>\n";
-            $GLOBALS['xoopsTpl']->append('sets', array('quote' => $thisQuote->getVar('quote'),
-                                                      'author' => $thisQuote->getVar('author'))
-            );
-//        }
+        //        if (0 == $quotes_arr[$i]->getVar("quotes_pid")) {
+        $class = ('even' == $class) ? 'odd' : 'even';
+        $bodyTxt .= "  <tr class='{$class}'>\n" . "    <td> " . $thisQuote->getVar('quote') . "</td>\n" . "    <td class='txtcenter'>" . $thisQuote->getVar("author") . "</td>\n" . "  </tr>\n";
+        $GLOBALS['xoopsTpl']->append('sets', array('quote'  => $thisQuote->getVar('quote'),
+                                                   'author' => $thisQuote->getVar('author')));
+        //        }
     }
-    $bodyTxt .= "  </tbody>\n"
-             . "</table><br><br>\n";
+    $bodyTxt .= "  </tbody>\n" . "</table><br><br>\n";
 } else {
-    $bodyTxt = "<div class='txtcenter bold italic'>\n"
-             . " " . _MA_RANDOMQUOTE_NO_QUOTES . "\n"
-             . "</div>\n";
+    $bodyTxt = "<div class='txtcenter bold italic'>\n" . " " . _MA_RANDOMQUOTE_NO_QUOTES . "\n" . "</div>\n";
 }
 $GLOBALS['xoopsTpl']->assign('bodyTxt', $bodyTxt);
 //

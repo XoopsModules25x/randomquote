@@ -33,18 +33,20 @@ function xoops_module_pre_uninstall_randomquote(&$module)
 {
     // Do some synchronization with tags to remove tags associated with this module
 
-    $success = true;
+    $success   = true;
     $tagModule = XoopsModule::getByDirname('tag');
     if ($tagModule instanceof XoopsModule) {
         // first delete all quotes
         $quotesHandler = xoops_getmodulehandler('quotes', $module->dirname());
-        $quoteObjs     = $quotesHandler->deleteAll();
-        //now 'unlink' the quote tags from Tag modules
-        include_once $GLOBALS['xoops']->path("/modules/tag/include/functions.recon.php");
-        $success = tag_synchronization();
-        if (!$success) {
-            xoops_loadLanguage('admin', $module->dirname());
-            $module->setErrors(_AM_RANDOMQUOTE_ERROR_TAG_REMOVAL);
+        if ($quotesHandler->getCount() > 0) {
+            $quoteObjs = $quotesHandler->deleteAll();
+            //now 'unlink' the quote tags from Tag modules
+            include_once $GLOBALS['xoops']->path("/modules/tag/include/functions.recon.php");
+            $success = tag_synchronization();
+            if (!$success) {
+                xoops_loadLanguage('admin', $module->dirname());
+                $module->setErrors(_AM_RANDOMQUOTE_ERROR_TAG_REMOVAL);
+            }
         }
     }
 

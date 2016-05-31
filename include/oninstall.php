@@ -54,6 +54,7 @@ function xoops_module_pre_install_randomquote(&$module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_randomquote(&$module) {
+function xoops_module_install_randomquote(&$module)
+{
     return true;
 }

@@ -25,6 +25,8 @@
 - removed need for ./include/action.module.php
 - removed @version from phpDocumentor form page-level blocks
 - removed unused admin templates
+- fixed PHP version check (mamba)
+- fixed uninstall (mamba)
 
 <u>Version 2.10 Beta 1 [2016-04-16]</u>
 - Updates for XOOPS 2.5.8, PHP 7 (mamba)

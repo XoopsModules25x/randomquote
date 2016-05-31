@@ -45,7 +45,7 @@ function randomquote_tag_iteminfo(&$items)
     include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
     $itemsId = array();
-    $catsId = array();
+    $catsId  = array();
 
     foreach (array_keys($items) as $catId) {
         $catsId[] = (int)$catId;
@@ -63,13 +63,13 @@ function randomquote_tag_iteminfo(&$items)
 
     foreach ($catsId as $catId) {
         foreach ($itemsId as $itemId) {
-            $quoteObj = $quoteObjs[$itemId];
-            $items[$catId][$itemId] = array('title' => $quoteObj, //uses class majic __toString
-                                             'link' => "index.php?id={$itemId}",
-                                             'time' => strtotime($quoteObj->getVar('create_date')),
-                                          'content' => '',
-//                                             'tags' => tag_parse_tag($quoteObj->getVar('item_tag', 'n')), // optional
-//                                              'uid' => $quoteObj->getVar('uid'),
+            $quoteObj               = $quoteObjs[$itemId];
+            $items[$catId][$itemId] = array('title'   => $quoteObj, //uses class majic __toString
+                                            'link'    => "index.php?id={$itemId}",
+                                            'time'    => strtotime($quoteObj->getVar('create_date')),
+                                            'content' => '',
+                                            //                                             'tags' => tag_parse_tag($quoteObj->getVar('item_tag', 'n')), // optional
+                                            //                                              'uid' => $quoteObj->getVar('uid'),
             );
         }
     }
@@ -81,7 +81,7 @@ function randomquote_tag_iteminfo(&$items)
 /**
  * Remove orphan tag-item links
  *
- *  @param int $mid module ID
+ * @param int $mid module ID
  */
 function randomquote_tag_synchronization($mid)
 {
@@ -102,15 +102,16 @@ function randomquote_tag_synchronization($mid)
         // check to make sure module is active and trying to sync randomquote
         if (($rqModule instanceof XoopsModule) && ($rqModule->isactive()) && ($rqModule->mid() == $mid)) {
             // clear tag-item links
-            $sql = "DELETE FROM {$linkHandler->table}"
-                 . " WHERE tag_modid = {$mid}"
-                 . "    AND "
-                 . "    (tag_itemid NOT IN "
-                 . "        (SELECT DISTINCT {$itemHandler->keyName} "
-                 . "           FROM {$itemHandler->table} "
-                 . "           WHERE {$itemHandler->table}.quote_status = " . RandomquoteConstants::STATUS_ONLINE
-                 . "        )"
-                 . "    )";
+            $sql    = "DELETE FROM {$linkHandler->table}"
+                      . " WHERE tag_modid = {$mid}"
+                      . "    AND "
+                      . "    (tag_itemid NOT IN "
+                      . "        (SELECT DISTINCT {$itemHandler->keyName} "
+                      . "           FROM {$itemHandler->table} "
+                      . "           WHERE {$itemHandler->table}.quote_status = "
+                      . RandomquoteConstants::STATUS_ONLINE
+                      . "        )"
+                      . "    )";
             $result = $linkHandler->db->queryF($sql);
         } else {
             $result = false;

@@ -24,11 +24,8 @@
  * @since           2.00
  */
 
-if ((!defined('XOOPS_ROOT_PATH'))
-   || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
-   || !($GLOBALS['xoopsUser']->IsAdmin()))
-{
-     exit("Restricted access" . PHP_EOL);
+if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser) || !($GLOBALS['xoopsUser']->IsAdmin())) {
+    exit("Restricted access" . PHP_EOL);
 }
 
 /**
@@ -76,33 +73,25 @@ function xoops_module_update_randomquote(&$module, $installedVersion = null)
     $errors = 0;
     if (tableExists($GLOBALS['xoopsDB']->prefix('citas'))) {
 
-        $sql = sprintf('ALTER TABLE '
-                     . $GLOBALS['xoopsDB']->prefix('citas')
-                     . ' CHANGE `citas` `quote` TEXT'
-        );
+        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('citas') . ' CHANGE `citas` `quote` TEXT');
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED0);
             ++$errors;
         }
 
-        $sql = sprintf('ALTER TABLE '
-                     . $GLOBALS['xoopsDB']->prefix('citas')
-                     . " ADD COLUMN `quote_status` int (10) NOT NULL default '0',"
-                     . " ADD COLUMN `quote_waiting` int (10) NOT NULL default '0',"
-                     . " ADD COLUMN `quote_online` int (10) NOT NULL default '0';"
-        );
+        $sql    = sprintf('ALTER TABLE '
+                          . $GLOBALS['xoopsDB']->prefix('citas')
+                          . " ADD COLUMN `quote_status` int (10) NOT NULL default '0',"
+                          . " ADD COLUMN `quote_waiting` int (10) NOT NULL default '0',"
+                          . " ADD COLUMN `quote_online` int (10) NOT NULL default '0';");
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
             ++$errors;
         }
 
-        $sql = sprintf('ALTER TABLE '
-                     . $GLOBALS['xoopsDB']->prefix('citas')
-                     . ' RENAME '
-                     . $GLOBALS['xoopsDB']->prefix('randomquote_quotes')
-        );
+        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('citas') . ' RENAME ' . $GLOBALS['xoopsDB']->prefix('randomquote_quotes'));
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED2);
@@ -112,7 +101,7 @@ function xoops_module_update_randomquote(&$module, $installedVersion = null)
 
     if ($installedVersion < 211) {
         // add column for quotes table for date created
-        $result = $GLOBALS['xoopsDB']->queryF("SHOW COLUMNS FROM " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " LIKE 'create_date'");
+        $result      = $GLOBALS['xoopsDB']->queryF("SHOW COLUMNS FROM " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " LIKE 'create_date'");
         $foundCreate = $GLOBALS['xoopsDB']->getRowsNum($result);
         if (empty($foundCreate)) {
             // column doesn't exist, so try and add it
@@ -124,7 +113,7 @@ function xoops_module_update_randomquote(&$module, $installedVersion = null)
         }
 
         // change status to indicate quote waiting approval
-        $sql = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=2 WHERE `quote_waiting` > 0";
+        $sql    = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=2 WHERE `quote_waiting` > 0";
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
@@ -132,7 +121,7 @@ function xoops_module_update_randomquote(&$module, $installedVersion = null)
         }
 
         // change status to indicate quote online
-        $sql = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=1 WHERE `quote_online` > 0";
+        $sql    = "UPDATE " . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " SET quote_status=1 WHERE `quote_online` > 0";
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
@@ -140,11 +129,7 @@ function xoops_module_update_randomquote(&$module, $installedVersion = null)
         }
 
         // drop the waiting and online columns
-        $sql = sprintf('ALTER TABLE '
-            . $GLOBALS['xoopsDB']->prefix('randomquote_quotes')
-            . " DROP COLUMN `quote_waiting`,"
-            . " DROP COLUMN `quote_online`;"
-        );
+        $sql    = sprintf('ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('randomquote_quotes') . " DROP COLUMN `quote_waiting`," . " DROP COLUMN `quote_online`;");
         $result = $GLOBALS['xoopsDB']->queryF($sql);
         if (!$result) {
             $module->setErrors(_AM_RANDOMQUOTE_UPGRADEFAILED1);
