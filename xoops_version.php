@@ -33,9 +33,9 @@ $editorHandler = XoopsEditorHandler::getInstance();
 $modversion = array('name'                => _MI_RANDOMQUOTE_ADMIN_NAME,
                     'description'         => _MI_RANDOMQUOTE_ADMIN_DESC,
                     'version'             => 2.11,
-                    'module_status'       => 'Beta 1',
+                    'module_status'       => 'Final',
                     'official'            => 0, //1 if supported by XOOPS CORE Dev Team, 0 otherwise
-                    'release_date'        => '2016/5/16',
+                    'release_date'        => '2017/5/24',
                     'author'              => 'XOOPS Module Development Team',
                     //             'author_mail' => 'webmaster@xoops.org',
                     'author_website_url'  => 'http://xoops.org',
