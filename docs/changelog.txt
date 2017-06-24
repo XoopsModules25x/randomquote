@@ -1,13 +1,17 @@
-<h5>2.11 RC 1 [2016-6-23]</h5>
+<h5>2.12 RC 1 [2017-6-23]</h5>
 <hr>
-- fixed PHP version check (mamba)
-- fixed uninstall (mamba)
 - replaced "< br />" with "< br >" (mamba)
 - added data sample (mamba)
+- replaced XoopsRequest with Request (mamba)
 - started conversion to XMF (mamba)
     - updated addInfoBoxLine entries (mamba)
     - displayNavigation(basename(__FILE__))  (mamba)
     - changed to ->displayButton('left') (mamba)
+
+
+<h5>2.11 Final [2017-5-24]</h5>
+<hr>
+- cosmetics
 
 <h5>2.11 Beta 1 [2016-5-16]</h5>
 <hr>
@@ -17,7 +21,7 @@
 - added module search capability
 - added support for XOOPS Tag module
 - added date quote was added to database
-- changed to allow HTML in quote entry (Request::getText) in admin
+- changed to allow HTML in quote entry (XoopsRequest::getText) in admin
 - changed install/update/unistall scripts
 - changed hard coded language strings from templates to language files
 - changed to improved index.tpl rendering
@@ -37,6 +41,8 @@
 - removed need for ./include/action.module.php
 - removed @version from phpDocumentor form page-level blocks
 - removed unused admin templates
+- fixed PHP version check (mamba)
+- fixed uninstall (mamba)
 
 <h5>2.10 Beta 1 [2016-04-16]</h5>
 <hr>

@@ -30,9 +30,9 @@ xoops_load('xoopseditorhandler');
 $editorHandler = XoopsEditorHandler::getInstance();
 
 $modversion = array(
-    'version'             => '2.11',
+    'version'             => '2.12',
     'module_status'       => 'RC 1',
-    'release_date'        => '2016/6/23',
+    'release_date'        => '2017/6/23',
     'name'                => _MI_RANDOMQUOTE_ADMIN_NAME,
     'description'         => _MI_RANDOMQUOTE_ADMIN_DESC,
     'official'            => 0,
