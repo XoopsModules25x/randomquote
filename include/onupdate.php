@@ -48,16 +48,16 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_randomquote($module)
 {
-    if (!class_exists('RandomquoteUtilities')) {
-        xoops_load('utilities', 'randomquote');
+    if (!class_exists('RandomquoteUtility')) {
+        xoops_load('utility', 'randomquote');
     }
     //check for minimum XOOPS version
-    if (!RandomquoteUtilities::checkXoopsVer($module)) {
+    if (!RandomquoteUtility::checkXoopsVer($module)) {
         return false;
     }
 
     // check for minimum PHP version
-    if (!RandomquoteUtilities::checkPHPVer($module)) {
+    if (!RandomquoteUtility::checkPHPVer($module)) {
         return false;
     }
     return true;

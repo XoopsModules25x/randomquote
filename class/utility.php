@@ -22,12 +22,12 @@
  */
 
 /**
- * RandomquoteUtilities
+ * RandomquoteUtility
  *
- * Static utilities class to provide common functionality
+ * Static utility class to provide common functionality
  *
  */
-class RandomquoteUtilities
+class RandomquoteUtility
 {
     /**
      *

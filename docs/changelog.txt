@@ -3,6 +3,7 @@
 - replaced "< br />" with "< br >" (mamba)
 - added data sample (mamba)
 - replaced XoopsRequest with Request (mamba)
+- renamed Utilities to Utility (mamba)
 - started conversion to XMF (mamba)
     - updated addInfoBoxLine entries (mamba)
     - displayNavigation(basename(__FILE__))  (mamba)
