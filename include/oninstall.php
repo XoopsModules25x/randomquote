@@ -35,12 +35,12 @@ function xoops_module_pre_install_randomquote(XoopsModule $module)
         xoops_load('utility', 'randomquote');
     }
     //check for minimum XOOPS version
-    if (!RandomquoteUtility::checkXoopsVer($module)) {
+    if (!RandomquoteUtility::checkVerXoops($module)) {
         return false;
     }
 
     // check for minimum PHP version
-    if (!RandomquoteUtility::checkPHPVer($module)) {
+    if (!RandomquoteUtility::checkVerPhp($module)) {
         return false;
     }
     return true;

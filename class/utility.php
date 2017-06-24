@@ -33,19 +33,26 @@ class RandomquoteUtility
      *
      * Verifies XOOPS version meets minimum requirements for this module
      * @static
-     * @param XoopsModule
+     * @param XoopsModule $module
      *
+     * @param null|string        $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkXoopsVer(&$module)
+    public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
     {
+        if (null === $module) {
+            $moduleDirName = basename(dirname(__DIR__));
+            $module        = XoopsModule::getByDirname($moduleDirName);
+        }
         xoops_loadLanguage('admin', $module->dirname());
         //check for minimum XOOPS version
-        $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
-        $currArray   = explode('.', $currentVer);
-        $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
-        $reqArray    = explode('.', $requiredVer);
-        $success     = true;
+        $currentVer = substr(XOOPS_VERSION, 6); // get the numeric part of string
+        $currArray  = explode('.', $currentVer);
+        if (null === $requiredVer) {
+            $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
+        }
+        $reqArray = explode('.', $requiredVer);
+        $success  = true;
         foreach ($reqArray as $k => $v) {
             if (isset($currArray[$k])) {
                 if ($currArray[$k] > $v) {
@@ -75,18 +82,18 @@ class RandomquoteUtility
      *
      * Verifies PHP version meets minimum requirements for this module
      * @static
-     * @param XoopsModule
+     * @param XoopsModule $module
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkPHPVer(&$module)
+    public static function checkVerPhp(XoopsModule $module)
     {
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version
         $success = true;
-        $verNum  = phpversion();
+        $verNum  = PHP_VERSION;
         $reqVer  = $module->getInfo('min_php');
-        if (isset($reqVer)) {
+        if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(_AM_RANDOMQUOTE_ERROR_BAD_PHP, $reqVer, $verNum));
                 $success = false;
