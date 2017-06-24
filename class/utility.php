@@ -43,7 +43,7 @@ class RandomquoteUtilities
         //check for minimum XOOPS version
         $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
         $currArray   = explode('.', $currentVer);
-        $requiredVer = "" . $module->getInfo('min_xoops'); //making sure it's a string
+        $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
         $reqArray    = explode('.', $requiredVer);
         $success     = true;
         foreach ($reqArray as $k => $v) {

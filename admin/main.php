@@ -21,20 +21,22 @@
  * @link            http://xoops.org XOOPS
  * @since           2.00
  */
+use Xmf\Request;
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
+xoops_cp_header();
 
-$op = XoopsRequest::getCmd('op', '');
+$op = Request::getCmd('op', '');
 
 switch ($op) {
     case 'list':
     default:
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_RANDOMQUOTE_NEW_QUOTES, 'main.php?op=new_quote', 'add');
-        echo $adminMenu->renderButton('right');
+       $adminObject->displayNavigation(basename(__FILE__));
+       $adminObject->addItemButton(_AM_RANDOMQUOTE_NEW_QUOTES, 'main.php?op=new_quote', 'add');
+       $adminObject->displayButton('left');
         $criteria = new CriteriaCompo();
         if (isset($_REQUEST['status'])) {
-            $status = XoopsRequest::getInt('status', RandomquoteConstants::STATUS_ONLINE);
+            $status = Request::getInt('status', RandomquoteConstants::STATUS_ONLINE);
             $criteria->add(new Criteria('quote_status', $status));
         } else {
             $criteria->setSort('id');
@@ -85,7 +87,7 @@ switch ($op) {
                      . "    <td class='txtcenter'>"
                      . ucfirst(formatTimestamp(strtotime($quoteObj->getVar('create_date')), 'm'))
                      . "</td>\n"
-                     . "    <td>"
+                     . '    <td>'
                      . $quoteObj->getVar('quote')
                      . "</td>\n"
                      . "    <td class='txtcenter'>"
@@ -113,7 +115,7 @@ switch ($op) {
         } else {
             //no quotes in the dB
             echo "<div class=\"clear spacer;\"> </div>\n"
-                 . "<div class=\"center bold italic large line180\">"
+                 . '<div class="center bold italic large line180">'
                  . sprintf(_AM_RANDOMQUOTE_THEREARE_QUOTES, _NO)
                  . "</div>\n"
                  . "<div class=\"clear spacer line180\"> </div>\n";
@@ -121,9 +123,9 @@ switch ($op) {
         break;
 
     case 'new_quote':
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_RANDOMQUOTE_QUOTES_LIST, 'main.php?op=list', 'list');
-        echo $adminMenu->renderButton('left');
+       $adminObject->displayNavigation(basename(__FILE__));
+       $adminObject->addItemButton(_AM_RANDOMQUOTE_QUOTES_LIST, 'main.php?op=list', 'list');
+       $adminObject->displayButton('left');
 
         $obj  = $quotesHandler->create();
         $form = $obj->getForm();
@@ -132,7 +134,7 @@ switch ($op) {
 
     case 'save_quote':
         // check to make sure this passes form submission security
-        if (($GLOBALS['xoopsSecurity'] instanceof XoopsSecurity)) {
+        if ($GLOBALS['xoopsSecurity'] instanceof XoopsSecurity) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 // failed xoops security check
                 redirect_header($_SERVER['PHP_SELF'], RandomquoteConstants::REDIRECT_DELAY_MEDIUM, $GLOBALS['xoopsSecurity']->getErrors(true));
@@ -143,15 +145,15 @@ switch ($op) {
 
         $input = new stdClass; // setup input array
 
-        $input->id       = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID, 'POST');
-        $input->quote    = XoopsRequest::getText('quote', '', 'POST');
-        $input->author   = XoopsRequest::getText('author', '', 'POST');
-        $input->item_tag = XoopsRequest::getString('item_tag', '', 'POST');
+        $input->id       = Request::getInt('id', RandomquoteConstants::DEFAULT_ID, 'POST');
+        $input->quote    = Request::getText('quote', '', 'POST');
+        $input->author   = Request::getText('author', '', 'POST');
+        $input->item_tag = Request::getString('item_tag', '', 'POST');
 
-        $verify_quote_status = XoopsRequest::getInt('quote_status', RandomquoteConstants::STATUS_OFFLINE, 'POST');
-        $input->quote_status = (in_array($verify_quote_status, array(RandomquoteConstants::STATUS_ONLINE,
+        $verify_quote_status = Request::getInt('quote_status', RandomquoteConstants::STATUS_OFFLINE, 'POST');
+        $input->quote_status = in_array($verify_quote_status, array(RandomquoteConstants::STATUS_ONLINE,
                                                                      RandomquoteConstants::STATUS_OFFLINE,
-                                                                     RandomquoteConstants::STATUS_WAITING))) ? $verify_quote_status : RandomquoteConstants::STATUS_OFFLINE;
+                                                                     RandomquoteConstants::STATUS_WAITING)) ? $verify_quote_status : RandomquoteConstants::STATUS_OFFLINE;
 
         if (!empty($input->id)) {
             $obj     = $quotesHandler->get($input->id);
@@ -168,11 +170,11 @@ switch ($op) {
         if ($objId = $quotesHandler->insert($obj)) {
             //            $moduleHandler = xoops_gethandler('module');
             $tagModule = XoopsModule::getByDirname('tag');
-            if (($tagModule instanceof XoopsModule) && ($tagModule->isactive())) {
-                $tagHandler = xoops_getmodulehandler('tag', 'tag');
+            if (($tagModule instanceof XoopsModule) && $tagModule->isactive()) {
+                $tagHandler = xoops_getModuleHandler('tag', 'tag');
                 $tagHandler->updateByItem($input->item_tag, $objId, $thisDirname, 0);
             }
-            redirect_header("main.php?op=list", RandomquoteConstants::REDIRECT_DELAY_MEDIUM, $add_msg);
+            redirect_header('main.php?op=list', RandomquoteConstants::REDIRECT_DELAY_MEDIUM, $add_msg);
         }
 
         echo $obj->getHtmlErrors();
@@ -181,13 +183,13 @@ switch ($op) {
         break;
 
     case 'edit_quote':
-        echo $adminMenu->addNavigation(basename(__FILE__));
-        $adminMenu->addItemButton(_AM_RANDOMQUOTE_NEW_QUOTES, 'main.php?op=new_quote', 'add');
-        $adminMenu->addItemButton(_AM_RANDOMQUOTE_QUOTES_LIST, 'main.php?op=list', 'list');
-        echo $adminMenu->renderButton('left');
-        $id = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
+       $adminObject->displayNavigation(basename(__FILE__));
+       $adminObject->addItemButton(_AM_RANDOMQUOTE_NEW_QUOTES, 'main.php?op=new_quote', 'add');
+       $adminObject->addItemButton(_AM_RANDOMQUOTE_QUOTES_LIST, 'main.php?op=list', 'list');
+       $adminObject->displayButton('left');
+        $id = Request::getInt('id', RandomquoteConstants::DEFAULT_ID);
         if (empty($id)) {
-            redirect_header($_SERVER['PHP_SELF'] . "?op=new_quote");
+            redirect_header($_SERVER['PHP_SELF'] . '?op=new_quote');
         }
         $obj  = $quotesHandler->get($id);
         $form = $obj->getForm();
@@ -195,11 +197,11 @@ switch ($op) {
         break;
 
     case 'delete_quote':
-        $delOk = XoopsRequest::getInt('ok', RandomquoteConstants::CONFIRM_NOT_OK, 'POST');
-        $id    = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
+        $delOk = Request::getInt('ok', RandomquoteConstants::CONFIRM_NOT_OK, 'POST');
+        $id    = Request::getInt('id', RandomquoteConstants::DEFAULT_ID);
         if ($delOk) {
             // check to make sure this passes form submission security
-            if (($GLOBALS['xoopsSecurity'] instanceof XoopsSecurity)) {
+            if ($GLOBALS['xoopsSecurity'] instanceof XoopsSecurity) {
                 if (!$GLOBALS['xoopsSecurity']->check()) {
                     // failed xoops security check
                     redirect_header($_SERVER['PHP_SELF'], RandomquoteConstants::REDIRECT_DELAY_MEDIUM, $GLOBALS['xoopsSecurity']->getErrors(true));
@@ -208,14 +210,14 @@ switch ($op) {
                 redirect_header('index.php', RandomquoteConstants::REDIRECT_DELAY_MEDIUM, _MD_RANDOMQUOTE_INVALID_SECURITY_TOKEN);
             }
             $obj = $quotesHandler->get($id);
-            if (($obj instanceof RandomquoteQuotes)) {
+            if ($obj instanceof RandomquoteQuotes) {
                 $itemId = $obj->getVar('id');
                 if ($quotesHandler->delete($obj)) {
                     // now clear out items in tag module for this item
-                    $moduleHandler = xoops_gethandler('module');
+                    $moduleHandler = xoops_getHandler('module');
                     $tagModule     = XoopsModule::getByDirname('tag');
-                    if (($tagModule instanceof XoopsModule) && ($tagModule->isactive())) {
-                        $tagHandler = xoops_getmodulehandler('tag', 'tag');
+                    if (($tagModule instanceof XoopsModule) && $tagModule->isactive()) {
+                        $tagHandler = xoops_getModuleHandler('tag', 'tag');
                         $tagHandler->updateByItem(array(), $itemId, $thisDirname);  //clear all tags for this item
                     }
                     redirect_header($_SERVER['PHP_SELF'], RandomquoteConstants::REDIRECT_DELAY_MEDIUM, _AM_RANDOMQUOTE_FORMDELOK);
@@ -231,4 +233,4 @@ switch ($op) {
         }
         break;
 }
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

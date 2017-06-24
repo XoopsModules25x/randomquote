@@ -25,11 +25,11 @@
 /**
  *
  * Prepares system prior to attempting to uninstall module
- * @param obj $module {@link XoopsModule}
+ * @param XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to uninstall, false if not
  */
-function xoops_module_pre_uninstall_randomquote(&$module)
+function xoops_module_pre_uninstall_randomquote($module)
 {
     // Do some synchronization with tags to remove tags associated with this module
 
@@ -37,11 +37,11 @@ function xoops_module_pre_uninstall_randomquote(&$module)
     $tagModule = XoopsModule::getByDirname('tag');
     if ($tagModule instanceof XoopsModule) {
         // first delete all quotes
-        $quotesHandler = xoops_getmodulehandler('quotes', $module->dirname());
+        $quotesHandler = xoops_getModuleHandler('quotes', $module->dirname());
         if ($quotesHandler->getCount() > 0) {
             $quoteObjs = $quotesHandler->deleteAll();
             //now 'unlink' the quote tags from Tag modules
-            include_once $GLOBALS['xoops']->path("/modules/tag/include/functions.recon.php");
+            require_once $GLOBALS['xoops']->path('/modules/tag/include/functions.recon.php');
             $success = tag_synchronization();
             if (!$success) {
                 xoops_loadLanguage('admin', $module->dirname());
@@ -56,11 +56,11 @@ function xoops_module_pre_uninstall_randomquote(&$module)
 /**
  *
  * Performs tasks required during uninstallation of the module
- * @param obj $module {@link XoopsModule}
+ * @param XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_randomquote(&$module)
+function xoops_module_uninstall_randomquote($module)
 {
     $success = true;
     return $success;

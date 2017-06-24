@@ -22,22 +22,31 @@
  * @since           2.00
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
+// Display Admin header
+xoops_cp_header();
 
 //count quotes
 $totalCount   = $quotesHandler->getCount();
 $offlineCount = $quotesHandler->getCount(new Criteria('quote_status', RandomquoteConstants::STATUS_OFFLINE, '='));
 $onlineCount  = $quotesHandler->getCount(new Criteria('quote_status', RandomquoteConstants::STATUS_ONLINE, '='));
-$waitingCount = (string) ($totalCount - $offlineCount - $onlineCount);
+$waitingCount = (string)($totalCount - $offlineCount - $onlineCount);
 
 // InfoBox quotes
-$adminMenu->addInfoBox(_AM_RANDOMQUOTE_STATISTICS);
+$adminObject->addInfoBox(_AM_RANDOMQUOTE_STATISTICS);
 // InfoBox quotes
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_THEREARE_QUOTES, $totalCount);
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_QUOTES_OFFLINE, $offlineCount, 'red');
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_QUOTES_ONLINE , $onlineCount, 'green');
-$adminMenu->addInfoBoxLine(_AM_RANDOMQUOTE_STATISTICS, _AM_RANDOMQUOTE_QUOTES_WAITING, $waitingCount, 'orange');
+$adminObject->addInfoBoxLine(sprintf(_AM_RANDOMQUOTE_THEREARE_QUOTES, $totalCount));
+$adminObject->addInfoBoxLine(sprintf(_AM_RANDOMQUOTE_QUOTES_OFFLINE, '<span class="red">' . $offlineCount . '</span>'),'', 'red');
+$adminObject->addInfoBoxLine(sprintf(_AM_RANDOMQUOTE_QUOTES_ONLINE, '<span class="green">' . $onlineCount . '</span>'),'', 'green');
+$adminObject->addInfoBoxLine(sprintf(_AM_RANDOMQUOTE_QUOTES_WAITING, '<span class="orange">' . $waitingCount . '</span>'),'', 'orange');
 // Render Index
-echo $adminMenu->addNavigation(basename(__FILE__));
-echo $adminMenu->renderIndex();
-include_once __DIR__ . '/admin_footer.php';
+$adminObject->displayNavigation(basename(__FILE__));
+
+xoops_loadLanguage('admin/modulesadmin', 'system');
+require_once __DIR__ . '/../testdata/index.php';
+$adminObject->addItemButton(_AM_SYSTEM_MODULES_INSTALL_TESTDATA, '__DIR__ . /../../testdata/index.php?op=load', 'add');
+$adminObject->displayButton('left', '');
+
+$adminObject->displayIndex();
+
+require_once __DIR__ . '/admin_footer.php';

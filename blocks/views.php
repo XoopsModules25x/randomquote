@@ -23,7 +23,7 @@
  */
 
 $moduleDirName = basename(dirname(__DIR__));
-include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
+require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
 /**
  *
@@ -51,7 +51,7 @@ function showRandomquoteBlockViews($options)
     $type_block    = $options[0];
     $nb_quotes     = (int)$options[1];
     $length_title  = (int)$options[2];
-    $quotesHandler = xoops_getmodulehandler('quotes', $moduleDirName);
+    $quotesHandler = xoops_getModuleHandler('quotes', $moduleDirName);
     $criteria      = new CriteriaCompo();
 
     switch ($type_block) {
@@ -102,16 +102,16 @@ function showRandomquoteBlockViews($options)
 function editRandomquoteBlockViews($options)
 {
     $quotes_arr = array();
-    $form       = ""
+    $form       = ''
                   . _MB_RANDOMQUOTE_QUOTES_DISPLAY
                   . "\n"
                   . "<input type='hidden' name='options[0]' value='{$options[0]}'>\n"
                   . "<input type='text' name='options[1]' value='{$options[1]}' size='3' maxlength='4'>&nbsp;<br>\n"
-                  . ""
+                  . ''
                   . _MB_RANDOMQUOTE_QUOTES_SHORTEN
                   . " <input type='number' name='options[2]' value='{$options[2]} size='3' maxlength='5'' min='0' step='5'> "
                   . _MB_RANDOMQUOTE_QUOTES_CHARACTERS
-                  . "<br><br>";
+                  . '<br><br>';
     /*
         array_shift($options);
         array_shift($options);

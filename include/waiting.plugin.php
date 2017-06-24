@@ -25,11 +25,11 @@
 function b_waiting_randomquote()
 {
     $moduleDirName = basename(dirname(__DIR__));
-    include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
+    require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
     $xoopsDB       = XoopsDatabaseFactory::getDatabaseConnection();
     $block         = array();
-    $quotesHandler = xoops_getmodulehandler('quotes', $moduleDirName);
+    $quotesHandler = xoops_getModuleHandler('quotes', $moduleDirName);
 
     // quotes waiting approval
     $result = $quotesHandler->getCount(new Criteria('quote_status', RandomquoteConstants::STATUS_WAITING));

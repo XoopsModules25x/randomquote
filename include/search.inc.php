@@ -29,9 +29,9 @@ function randomquote_search($queryarray, $andor, $limit, $offset, $userid)
     }
 
     $moduleDirName = basename(dirname(__DIR__));
-    include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
+    require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
-    $quoteHandler = xoops_getmodulehandler('quotes', 'randomquote');
+    $quoteHandler = xoops_getModuleHandler('quotes', 'randomquote');
     $entryFields  = array('id', 'quote', 'author', 'create_date');
     $criteria     = new CriteriaCompo();
     $criteria->add(new Criteria('quote_status', RandomquoteConstants::STATUS_ONLINE));
@@ -40,7 +40,7 @@ function randomquote_search($queryarray, $andor, $limit, $offset, $userid)
     $criteria->setLimit((int)$limit);
     $criteria->setStart((int)$offset);
 
-    if ((is_array($queryarray)) && !empty($queryarray)) {
+    if (is_array($queryarray) && !empty($queryarray)) {
         $criteria->add(new Criteria('quote', "%{$queryarray[0]}%", 'LIKE'));
         $criteria->add(new Criteria('author', "%{$queryarray[0]}%", 'LIKE'), 'OR');
         array_shift($queryarray); //get rid of first element
@@ -54,11 +54,10 @@ function randomquote_search($queryarray, $andor, $limit, $offset, $userid)
     foreach ($quoteObjs as $thisQuote) {
         $ttl   = xoops_substr(strip_tags((string)$thisQuote), 0, 60, $trimmarker = '...');
         $ret[] = array('image' => 'assets/images/icons/quote.png',
-                       'link'  => "index.php?id=" . $thisQuote->getVar('id'),
+                       'link'  => 'index.php?id=' . $thisQuote->getVar('id'),
                        'title' => $ttl,
                        'time'  => strtotime($thisQuote->getVar('create_date')),//                          'uid' => $entry['uid']
         );
-
     }
 
     unset($quoteObjs);

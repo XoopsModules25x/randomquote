@@ -1,11 +1,23 @@
-<u>Version 2.11 Beta 1 [2016-5-16]</u>
+<h5>2.11 RC 1 [2016-6-23]</h5>
+<hr>
+- fixed PHP version check (mamba)
+- fixed uninstall (mamba)
+- replaced "< br />" with "< br >" (mamba)
+- added data sample (mamba)
+- started conversion to XMF (mamba)
+    - updated addInfoBoxLine entries (mamba)
+    - displayNavigation(basename(__FILE__))  (mamba)
+    - changed to ->displayButton('left') (mamba)
+
+<h5>2.11 Beta 1 [2016-5-16]</h5>
+<hr>
 - added breadcrumb display to top of index page
 - added display of number of offline/online/waiting quotes in Admin index
 - added significant security improvements for all vars passed from forms
 - added module search capability
 - added support for XOOPS Tag module
 - added date quote was added to database
-- changed to allow HTML in quote entry (XoopsRequest::getText) in admin
+- changed to allow HTML in quote entry (Request::getText) in admin
 - changed install/update/unistall scripts
 - changed hard coded language strings from templates to language files
 - changed to improved index.tpl rendering
@@ -25,14 +37,14 @@
 - removed need for ./include/action.module.php
 - removed @version from phpDocumentor form page-level blocks
 - removed unused admin templates
-- fixed PHP version check (mamba)
-- fixed uninstall (mamba)
 
-<u>Version 2.10 Beta 1 [2016-04-16]</u>
+<h5>2.10 Beta 1 [2016-04-16]</h5>
+<hr>
 - Updates for XOOPS 2.5.8, PHP 7 (mamba)
 - Set min PHP to 5.5
 
-<u>Version 2.00 [2013-06-27]</u>
+<h5>2.00 [2013-06-27]</h5>
+<hr>
  - original release RandomQuote 2.0 Alpha 1 (mamba)
    This module is developed from scratch using TDMCreate, but it's inspired by
    the original code from RandomQuote

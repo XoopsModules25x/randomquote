@@ -22,16 +22,16 @@
  */
 
 // Main
-define('_MA_RANDOMQUOTE_INDEX', "Home");
-define('_MA_RANDOMQUOTE_TITLE', "Random Quote Module");
-define('_MA_RANDOMQUOTE_DESC', "This module is for collecting and showing Random Quotes");
-define('_MA_RANDOMQUOTE_NO_QUOTES', "There are no quotes that match your request.");
-define('_MA_RANDOMQUOTE_QUOTES', "Quotes");
+define('_MA_RANDOMQUOTE_INDEX', 'Home');
+define('_MA_RANDOMQUOTE_TITLE', 'Random Quote Module');
+define('_MA_RANDOMQUOTE_DESC', 'This module is for collecting and showing Random Quotes');
+define('_MA_RANDOMQUOTE_NO_QUOTES', 'There are no quotes that match your request.');
+define('_MA_RANDOMQUOTE_QUOTES', 'Quotes');
 //define('_MA_RANDOMQUOTE_QUOTES', "quotes");
-define('_MA_RANDOMQUOTE_ADMIN', "Admin");
-define('_MA_RANDOMQUOTE_QUOTES_QUOTE', "Quote");
-define('_MA_RANDOMQUOTE_QUOTES_AUTHOR', "Author");
-define('_MA_RANDOMQUOTE_QUOTES_STATUS', "Status");
-define('_MA_RANDOMQUOTE_QUOTES_WAITING', "Waiting");
-define('_MA_RANDOMQUOTE_QUOTES_ONLINE', "Online");
-define('_MA_RANDOMQUOTE_QUOTES_OFFLINE', "Offline");
+define('_MA_RANDOMQUOTE_ADMIN', 'Admin');
+define('_MA_RANDOMQUOTE_QUOTES_QUOTE', 'Quote');
+define('_MA_RANDOMQUOTE_QUOTES_AUTHOR', 'Author');
+define('_MA_RANDOMQUOTE_QUOTES_STATUS', 'Status');
+define('_MA_RANDOMQUOTE_QUOTES_WAITING', 'Waiting');
+define('_MA_RANDOMQUOTE_QUOTES_ONLINE', 'Online');
+define('_MA_RANDOMQUOTE_QUOTES_OFFLINE', 'Offline');

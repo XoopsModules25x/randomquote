@@ -20,6 +20,7 @@
  * @link            http://xoops.org XOOPS
  * @since           2.00
  */
+use Xmf\Request;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
@@ -66,19 +67,19 @@ class RandomquoteQuotes extends XoopsObject
     public function getForm($action = false)
     {
         if (false === $action) {
-            $action = XoopsRequest::getString('REQUEST_URI', '', 'SERVER');
+            $action = Request::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $title = $this->isNew() ? sprintf(_AM_RANDOMQUOTE_QUOTES_ADD) : sprintf(_AM_RANDOMQUOTE_QUOTES_EDIT);
 
         xoops_load('constants', 'randomquote');
-        include_once $GLOBALS['xoops']->path("/class/xoopsformloader.php");
+        require_once $GLOBALS['xoops']->path('/class/xoopsformloader.php');
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         $author     = $this->isNew() ? '' : $this->getVar('author');
-        $id         = ($this->getVar('id')) ? $this->getVar('id') : RandomquoteConstants::DEFAULT_ID;
+        $id         = $this->getVar('id') ? $this->getVar('id') : RandomquoteConstants::DEFAULT_ID;
         $textAuthor = new XoopsFormText(_AM_RANDOMQUOTE_QUOTES_AUTHOR, 'author', 50, 255, $author);
         $form->addElement($textAuthor);
 
@@ -97,16 +98,16 @@ class RandomquoteQuotes extends XoopsObject
          * load the formtag class
          * display the tag form element to collect the tag item
          */
-        $moduleHandler = xoops_gethandler('module');
+        $moduleHandler = xoops_getHandler('module');
         $tagModule     = XoopsModule::getByDirname('tag');
-        if (($tagModule instanceof XoopsModule) && ($tagModule->isactive())) {
+        if (($tagModule instanceof XoopsModule) && $tagModule->isactive()) {
             $tagClassExists = XoopsLoad::load('formtag', 'tag');  // get the TagFormTag class
             if ($tagClassExists) {
                 if ($this->isNew()) {
                     $tag_items = array();
                 } else {
                     $moduleMid  = $GLOBALS['xoopsModule']->mid();
-                    $tagHandler = xoops_getmodulehandler('tag', 'tag');
+                    $tagHandler = xoops_getModuleHandler('tag', 'tag');
                     $tag_items  = $tagHandler->getByItem($id, $moduleMid, 0);
                 }
                 $tag_string = implode('|', $tag_items);
@@ -116,7 +117,7 @@ class RandomquoteQuotes extends XoopsObject
             $form->addElement(new XoopsFormHidden('item_tag', ''));
         }
 
-        $quote_status       = ($this->isNew()) ? RandomquoteConstants::STATUS_ONLINE : $this->getVar('quote_status');
+        $quote_status       = $this->isNew() ? RandomquoteConstants::STATUS_ONLINE : $this->getVar('quote_status');
         $check_quote_status = new XoopsFormRadio(_AM_RANDOMQUOTE_QUOTES_STATUS, 'quote_status', $quote_status);
         $check_quote_status->addOption(RandomquoteConstants::STATUS_OFFLINE, _AM_RANDOMQUOTE_QUOTES_OFFLINE_TXT);
         $check_quote_status->addOption(RandomquoteConstants::STATUS_ONLINE, _AM_RANDOMQUOTE_QUOTES_ONLINE_TXT);
@@ -140,9 +141,9 @@ class RandomquoteQuotes extends XoopsObject
 class RandomquoteQuotesHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
-    function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'randomquote_quotes', 'RandomquoteQuotes', 'id', 'quote');
     }

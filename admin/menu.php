@@ -23,19 +23,35 @@
  */
 
 $moduleDirName = basename(dirname(__DIR__));
-$moduleHandler = xoops_gethandler('module');
-$xoopsModule   = XoopsModule::getByDirname($moduleDirName);
-$moduleInfo    = $moduleHandler->get($xoopsModule->getVar('mid'));
-$pathIcon32    = '../../' . $moduleInfo->getInfo('icons32');
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+}
+$adminObject = \Xmf\Module\Admin::getInstance();
 
-$adminmenu = array(array('title' => _MI_RANDOMQUOTE_ADMENU1,
-                         'link'  => 'admin/index.php',
-                         'icon'  => "{$pathIcon32}/home.png"),
+$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
+//$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
-                   array('title' => _MI_RANDOMQUOTE_ADMENU2,
-                         'link'  => 'admin/main.php',
-                         'icon'  => "{$pathIcon32}/content.png"),
+// Load language files
+$moduleHelper->loadLanguage('admin');
+$moduleHelper->loadLanguage('modinfo');
+$moduleHelper->loadLanguage('main');
+$adminmenu     = array(
+    array(
+        'title' => _MI_RANDOMQUOTE_ADMENU1,
+        'link'  => 'admin/index.php',
+        'icon'  => "{$pathIcon32}/home.png"
+    ),
 
-                   array('title' => _MI_RANDOMQUOTE_ADMENU3,
-                         'link'  => 'admin/about.php',
-                         'icon'  => "{$pathIcon32}/about.png"));
+    array(
+        'title' => _MI_RANDOMQUOTE_ADMENU2,
+        'link'  => 'admin/main.php',
+        'icon'  => "{$pathIcon32}/content.png"
+    ),
+
+    array(
+        'title' => _MI_RANDOMQUOTE_ADMENU3,
+        'link'  => 'admin/about.php',
+        'icon'  => "{$pathIcon32}/about.png"
+    )
+);

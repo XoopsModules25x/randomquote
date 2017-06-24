@@ -22,7 +22,11 @@
  * @since           2.00
  */
 
-include_once __DIR__ . '/admin_header.php';
-echo $adminMenu->addNavigation(basename(__FILE__));
-echo $adminMenu->renderAbout('25J998Y3QEDZW', false);
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_header.php';
+xoops_cp_header();
+
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
+
+require_once __DIR__ . '/admin_footer.php';

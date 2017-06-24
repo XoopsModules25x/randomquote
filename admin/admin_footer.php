@@ -22,6 +22,18 @@
  * @since           2.00
  */
 
+$pathIcon32      = Xmf\Module\Admin::iconUrl('', 32);
+
+echo "<div class='adminfooter'>\n"
+     ."  <div style='text-align: center;'>\n"
+     ."    <a href='http://www.xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n"
+     ."  </div>\n"
+     .'  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n"
+     .'</div>';
+
+xoops_cp_footer();
+
+/*
 echo "<div class='adminfooter'>\n"
      . "  <div class='center'>\n"
      . "    <a href='"
@@ -33,7 +45,7 @@ echo "<div class='adminfooter'>\n"
      . "'></a>\n"
      . "  </div>\n"
      . "  <div class='center smallsmall italic pad5'>\n"
-     . "    "
+     . '    '
      . _AM_RANDOMQUOTE_MAINTAINED_BY
      . " <a class='tooltip' rel='external' href='http://"
      . $GLOBALS['xoopsModule']->getInfo('module_website_url')
@@ -44,5 +56,6 @@ echo "<div class='adminfooter'>\n"
      . _AM_RANDOMQUOTE_MAINTAINED_TEXT
      . "</a>\n"
      . "  </div>\n"
-     . "</div>";
+     . '</div>';
 xoops_cp_footer();
+*/

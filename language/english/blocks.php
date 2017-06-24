@@ -23,14 +23,14 @@
  */
 
 // Main
-define('_MB_RANDOMQUOTE_QUOTES_DISPLAY', "How many quotes to display");
-define('_MB_RANDOMQUOTE_QUOTES_SHORTEN', "Shorten quote to");
-define('_MB_RANDOMQUOTE_QUOTES_CHARACTERS', "characters long.<br>Leave blank (or 0) to display all of quote.");
-define('_MB_RANDOMQUOTE_QUOTES_TITLELENGTH', "Title Length");
-define('_MB_RANDOMQUOTE_QUOTES_CATTODISPLAY', "Categories to Display");
-define('_MB_RANDOMQUOTE_QUOTES_ALLCAT', "All Categories");
-define('_MB_RANDOMQUOTE_QUOTES_', "");
-define('_MB_RANDOMQUOTE_QUOTES_STATUS', "Status");
-define('_MB_RANDOMQUOTE_QUOTES_WAITING', "Waiting");
-define('_MB_RANDOMQUOTE_QUOTES_ONLINE', "Online");
-define('_MB_RANDOMQUOTE_QUOTES_OFFLINE', "Offline");
+define('_MB_RANDOMQUOTE_QUOTES_DISPLAY', 'How many quotes to display');
+define('_MB_RANDOMQUOTE_QUOTES_SHORTEN', 'Shorten quote to');
+define('_MB_RANDOMQUOTE_QUOTES_CHARACTERS', 'characters long.<br>Leave blank (or 0) to display all of quote.');
+define('_MB_RANDOMQUOTE_QUOTES_TITLELENGTH', 'Title Length');
+define('_MB_RANDOMQUOTE_QUOTES_CATTODISPLAY', 'Categories to Display');
+define('_MB_RANDOMQUOTE_QUOTES_ALLCAT', 'All Categories');
+define('_MB_RANDOMQUOTE_QUOTES_', '');
+define('_MB_RANDOMQUOTE_QUOTES_STATUS', 'Status');
+define('_MB_RANDOMQUOTE_QUOTES_WAITING', 'Waiting');
+define('_MB_RANDOMQUOTE_QUOTES_ONLINE', 'Online');
+define('_MB_RANDOMQUOTE_QUOTES_OFFLINE', 'Offline');

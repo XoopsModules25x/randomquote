@@ -42,7 +42,7 @@ function randomquote_tag_iteminfo(&$items)
     }
 
     $moduleDirName = basename(dirname(__DIR__));
-    include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
+    require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
     $itemsId = array();
     $catsId  = array();
@@ -58,7 +58,7 @@ function randomquote_tag_iteminfo(&$items)
     $criteria->add(new Criteria('id', '(' . implode(',', $itemsId) . ')', 'IN'));
     $criteria->add(new Criteria('quote_status', RandomquoteConstants::STATUS_ONLINE));
 
-    $quoteHandler = xoops_getmodulehandler('quotes', $moduleDirName);
+    $quoteHandler = xoops_getModuleHandler('quotes', $moduleDirName);
     $quoteObjs    = $quoteHandler->getObjects($criteria, true);
 
     foreach ($catsId as $catId) {
@@ -86,37 +86,37 @@ function randomquote_tag_iteminfo(&$items)
 function randomquote_tag_synchronization($mid)
 {
     $moduleDirName = basename(dirname(__DIR__));
-    include_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
+    require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/class/constants.php");
 
-    $itemHandler = xoops_getmodulehandler('quotes', $moduleDirName);
-    $linkHandler = xoops_getmodulehandler('link', 'tag');
+    $itemHandler = xoops_getModuleHandler('quotes', $moduleDirName);
+    $linkHandler = xoops_getModuleHandler('link', 'tag');
 
     $itemClass = $moduleDirName . 'QuotesHandler';
     if ((!$itemHandler instanceof $itemClass) || (!$linkHandler instanceof TagLink)) {
         $result = false;
     } else {
         $mid           = XoopsFilterInput::clean($mid, 'INT');
-        $moduleHandler = xoops_gethandler('module');
+        $moduleHandler = xoops_getHandler('module');
         $rqModule      = XoopsModule::getByDirname($moduleDirName);
 
         // check to make sure module is active and trying to sync randomquote
-        if (($rqModule instanceof XoopsModule) && ($rqModule->isactive()) && ($rqModule->mid() == $mid)) {
+        if (($rqModule instanceof XoopsModule) && $rqModule->isactive() && ($rqModule->mid() == $mid)) {
             // clear tag-item links
             $sql    = "DELETE FROM {$linkHandler->table}"
                       . " WHERE tag_modid = {$mid}"
-                      . "    AND "
-                      . "    (tag_itemid NOT IN "
+                      . '    AND '
+                      . '    (tag_itemid NOT IN '
                       . "        (SELECT DISTINCT {$itemHandler->keyName} "
                       . "           FROM {$itemHandler->table} "
                       . "           WHERE {$itemHandler->table}.quote_status = "
                       . RandomquoteConstants::STATUS_ONLINE
-                      . "        )"
-                      . "    )";
+                      . '        )'
+                      . '    )';
             $result = $linkHandler->db->queryF($sql);
         } else {
             $result = false;
         }
     }
 
-    return ($result) ? true : false;
+    return $result ? true : false;
 }

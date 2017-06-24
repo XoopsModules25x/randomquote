@@ -22,33 +22,49 @@
  * @since           2.00
  */
 
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once $GLOBALS['xoops']->path('/include/cp_header.php');
+require_once __DIR__ . '/../../../include/cp_header.php';
+//require_once __DIR__ . '/../include/config.php';
+require_once __DIR__ . '/../class/utility.php';
+$moduleDirName = basename(dirname(__DIR__));
 
-$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
-
-XoopsLoad::load('xoopsrequest');
 XoopsLoad::load('quotes', $moduleDirName);
 XoopsLoad::load('constants', $moduleDirName);
 
-$pathIcon16      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('icons16'));
-$pathIcon32      = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('icons32'));
-$pathModuleAdmin = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+}
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = Xmf\Module\Admin::getInstance();
+
+$myts = MyTextSanitizer::getInstance();
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}
+
+$pathIcon16      = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32      = Xmf\Module\Admin::iconUrl('', 32);
+$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+
+// Local icons path
+$xoopsTpl->assign('pathModIcon16', $pathIcon16);
+$xoopsTpl->assign('pathModIcon32', $pathIcon32);
+
+// Load language files
+$moduleHelper->loadLanguage('admin');
+$moduleHelper->loadLanguage('modinfo');
+$moduleHelper->loadLanguage('main');
+
+
 $quotesHandler   = xoops_getModuleHandler('quotes', $moduleDirName);
 
 $myts = MyTextSanitizer::getInstance();
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    include_once $GLOBALS['xoops']->path("/class/template.php");
+    require_once $GLOBALS['xoops']->path('/class/template.php');
     $xoopsTpl = new XoopsTpl();
 }
 
 $GLOBALS['xoopsTpl']->assign('pathIcon16', $pathIcon16);
 $GLOBALS['xoopsTpl']->assign('pathIcon32', $pathIcon32);
-//Load languages
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('modinfo', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
-require_once "{$pathModuleAdmin}/moduleadmin/moduleadmin.php";
-
-xoops_cp_header();
-$adminMenu = new ModuleAdmin();

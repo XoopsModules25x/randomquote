@@ -18,14 +18,13 @@
  * @copyright       {@link http://xoops.org 2001-2016 XOOPS Project}
  * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @link            http://xoops.org XOOPS
- * @since           2.00
  */
 
 require_once __DIR__ . '/header.php';
 $xoopsOption                  = (!isset($xoopsOption)) ? array() : $xoopsOption;
 $xoopsOption['template_main'] = 'randomquote_index.tpl';
-include_once $GLOBALS['xoops']->path('www/header.php');
-include_once $GLOBALS['xoops']->path('www/class/pagenav.php');
+require_once $GLOBALS['xoops']->path('www/header.php');
+require_once $GLOBALS['xoops']->path('www/class/pagenav.php');
 xoops_load('xoopsrequest');
 
 $myts = MyTextSanitizer::getInstance();
@@ -60,14 +59,14 @@ $GLOBALS['xoopsTpl']->assign(array('xoops_mpageurl'  => $GLOBALS['xoops']->url("
 
 $quotesHandler = xoops_getModuleHandler('quotes', $moduleDirName);
 
-$aQuote   = XoopsRequest::getInt('id', RandomquoteConstants::DEFAULT_ID);
+$aQuote   = Request::getInt('id', RandomquoteConstants::DEFAULT_ID);
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('quote_status', RandomquoteConstants::STATUS_ONLINE)); //only show online quotes
 if ($aQuote) { // this is done to accomodate the tags module
     $criteria->add(new Criteria('id', $aQuote)); // if only want to see a single quote
 }
-$criteria->setSort("author");
-$criteria->setOrder("ASC");
+$criteria->setSort('author');
+$criteria->setOrder('ASC');
 $quoteObjArray = $quotesHandler->getAll($criteria);
 $numrows       = (!empty($quoteObjArray)) ? count($quoteObjArray) : 0;
 //$numrows    = $quotesHandler->getCount();
@@ -86,20 +85,20 @@ if ($numrows) {
                . "  </thead>\n"
                . "  <tbody>\n";
 
-    $class = "even";
+    $class = 'even';
 
     foreach ($quoteObjArray as $thisQuote) {
         //        if (0 == $quotes_arr[$i]->getVar("quotes_pid")) {
         $class = ('even' == $class) ? 'odd' : 'even';
-        $bodyTxt .= "  <tr class='{$class}'>\n" . "    <td> " . $thisQuote->getVar('quote') . "</td>\n" . "    <td class='txtcenter'>" . $thisQuote->getVar("author") . "</td>\n" . "  </tr>\n";
+        $bodyTxt .= "  <tr class='{$class}'>\n" . '    <td> ' . $thisQuote->getVar('quote') . "</td>\n" . "    <td class='txtcenter'>" . $thisQuote->getVar('author') . "</td>\n" . "  </tr>\n";
         $GLOBALS['xoopsTpl']->append('sets', array('quote'  => $thisQuote->getVar('quote'),
                                                    'author' => $thisQuote->getVar('author')));
         //        }
     }
     $bodyTxt .= "  </tbody>\n" . "</table><br><br>\n";
 } else {
-    $bodyTxt = "<div class='txtcenter bold italic'>\n" . " " . _MA_RANDOMQUOTE_NO_QUOTES . "\n" . "</div>\n";
+    $bodyTxt = "<div class='txtcenter bold italic'>\n" . ' ' . _MA_RANDOMQUOTE_NO_QUOTES . "\n" . "</div>\n";
 }
 $GLOBALS['xoopsTpl']->assign('bodyTxt', $bodyTxt);
 //
-include_once $GLOBALS['xoops']->path('/footer.php');
+require_once $GLOBALS['xoops']->path('/footer.php');

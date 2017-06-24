@@ -1,4 +1,4 @@
-Read Me First
+CREDITS
 =============
 
 This module has been created with help from TDMCreate module.
