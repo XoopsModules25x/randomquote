@@ -20,6 +20,8 @@
  * @link            http://xoops.org XOOPS
  */
 
+use Xmf\Request;
+
 require_once __DIR__ . '/header.php';
 $xoopsOption                  = (!isset($xoopsOption)) ? array() : $xoopsOption;
 $xoopsOption['template_main'] = 'randomquote_index.tpl';
