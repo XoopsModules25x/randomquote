@@ -4,7 +4,6 @@
  supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit
  authors.
-
  This program is distributed in the hope that it will be useful, but
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -59,7 +58,7 @@ $modversion = array(
     //                  'manual' => 'install.txt',
     //             'manual_file' => XOOPS_URL . "/modules/{$moduleDirName}/docs/link to manual file",
     'min_php'             => '5.5',
-    'min_xoops'           => '2.5.8',
+    'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => array('mysql' => '5.5'),
     'image'               => 'assets/images/logoModule.png',
@@ -190,7 +189,6 @@ $modversion = array(
                                                       'formtype' => 'yesno',
                                                      'valuetype' => 'int',
                                                        'default' => 0),
-
                                                     array('name' => 'fbcomments',
                                                          'title' => '_MI_RANDOMQUOTE_FBCOMMENTS',
                                                    'description' => '_MI_RANDOMQUOTE_FBCOMMENTS_DESC',
